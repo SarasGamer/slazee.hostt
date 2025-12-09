@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Slaze.host - Client Billing Area</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-main: #050612;
+      --bg-elevated: #0b0d1b;
+      --bg-elevated-soft: #101325;
+      --primary: #ff8c00;
+      --primary-soft: rgba(255, 140, 0, 0.16);
+      --primary-strong: #ffb600;
+      --accent: #00ffc6;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      --text-muted: #a3abc5;
+      --danger: #ff4b4b;
+      --success: #4ade80;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.6);
+      --transition-fast: 0.2s ease;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at 0 0, rgba(255, 196, 0, 0.18), transparent 52%),
+                  radial-gradient(circle at 100% 100%, rgba(0, 220, 255, 0.18), transparent 55%),
+                  #020309;
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Layout */
+    .app-shell {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      height: 100vh;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 18px 16px;
+      gap: 18px;
+    }
+
+    @media (max-width: 880px) {
+      body {
+        overflow: auto;
+      }
+      .app-shell {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        height: auto;
+      }
+      .sidebar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: linear-gradient(145deg, rgba(7, 8, 20, 0.96), rgba(4, 7, 25, 0.98));
+      border-radius: var(--radius-xl);
+      padding: 16px 14px 14px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 6px 4px 6px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, rgba(255, 180, 0, 0.4), transparent 60%);
+    }
+
+    .logo-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, var(--primary-strong), var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #1b1002;
+      box-shadow: 0 0 18px rgba(255, 170, 0, 0.8);
+    }
+
+    .brand-label {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-label span:first-child {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+    }
+
+    .brand-label span:first-child strong {
+      color: var(--primary-strong);
+    }
+
+    .brand-label span:last-child {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .sidebar-balance {
+      padding: 10px 12px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at 0 0, rgba(255, 160, 0, 0.22), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(0, 255, 186, 0.1), transparent 60%),
+                  rgba(5, 7, 20, 0.96);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .sidebar-balance-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-balance-top span:first-child {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .credit-chip {
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 10px;
+    }
+
+    .sidebar-balance-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .balance-amount {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .balance-amount span {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-right: 3px;
+    }
+
+    .sidebar-balance-main button {
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: radial-gradient(circle at 0 0, #ffe4aa, var(--primary));
+      color: #1a1002;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-nav-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      padding: 0 4px;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+      transition: var(--transition-fast);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-item span.label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 1;
+    }
+
+    .nav-item .icon {
+      font-size: 15px;
+      opacity: 0.9;
+    }
+
+    .nav-item small {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: var(--transition-fast);
+    }
+
+    .nav-item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at 0 0, rgba(255, 225, 170, 0.95), var(--primary));
+      opacity: 0;
+      transform: scale(0.85);
+      transition: var(--transition-fast);
+    }
+
+    .nav-item.active,
+    .nav-item:hover {
+      color: #231003;
+      border-color: rgba(255, 196, 0, 0.8);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-item.active small,
+    .nav-item:hover small {
+      opacity: 0.9;
+      transform: translateX(0);
+    }
+
+    .nav-item.active::before,
+    .nav-item:hover::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 8px 10px 4px;
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(255, 255, 255, 0.22);
+      background: rgba(2, 6, 23, 0.9);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .sidebar-footer strong {
+      color: var(--primary-strong);
+    }
+
+    /* Main content */
+    .main-panel {
+      background: linear-gradient(135deg, rgba(6, 9, 28, 0.96), rgba(3, 6, 20, 0.98));
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow: hidden;
+    }
+
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .main-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .main-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .main-title span {
+      color: var(--primary-strong);
+    }
+
+    .main-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .main-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pill-alert {
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 196, 0, 0.6);
+      background: radial-gradient(circle at 0 0, rgba(255, 196, 0, 0.25), transparent 60%);
+      color: #ffe6b3;
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(6, 9, 25, 0.8);
+      font-size: 12px;
+    }
+
+    .user-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 0 0, var(--accent), #1f2937);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 13px;
+      color: #020617;
+    }
+
+    .user-chip small {
+      display: block;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* Info cards */
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 1100px) {
+      .summary-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .summary-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .main-panel {
+        padding: 14px 12px 16px;
+      }
+    }
+
+    .summary-card {
+      padding: 12px 12px 10px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at 0 0, rgba(255, 160, 0, 0.18), transparent 50%),
+                  rgba(10, 13, 32, 0.95);
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .summary-card:nth-child(2) {
+      background: radial-gradient(circle at 0 0, rgba(0, 255, 178, 0.18), transparent 55%),
+                  rgba(10, 13, 32, 0.95);
+    }
+    .summary-card:nth-child(3) {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.24), transparent 55%),
+                  rgba(10, 13, 32, 0.95);
+    }
+
+    .summary-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 10px;
+    }
+
+    .summary-main {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .summary-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: #f9fafb;
+    }
+
+    .summary-chip {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(15, 23, 42, 0.78);
+      color: #e5e7eb;
+    }
+
+    .summary-footer {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .summary-footer span {
+      color: var(--primary-strong);
+    }
+
+    /* Views */
+    .views-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    .view {
+      display: none;
+      height: 100%;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .view-inner {
+      border-radius: var(--radius-lg);
+      background: var(--bg-elevated-soft);
+      border: 1px solid var(--border-subtle);
+      padding: 12px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .view-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .view-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .view-title span {
+      color: var(--primary-strong);
+    }
+
+    .view-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-ghost,
+    .btn-solid {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 11px;
+      padding: 6px 10px;
+      background: transparent;
+      color: var(--text-main);
+      cursor: pointer;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-ghost {
+      border-style: dashed;
+    }
+
+    .btn-solid {
+      background: radial-gradient(circle at 0 0, #ffe9b5, var(--primary));
+      color: #201004;
+      border-color: transparent;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .btn-solid:hover {
+      filter: brightness(1.07);
+    }
+
+    /* Table wrapper */
+    .table-wrapper {
+      margin-top: 6px;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.03), transparent 60%),
+                  rgba(2, 4, 19, 0.96);
+      overflow: hidden;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .table-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .table-filters {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag-filter {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(3, 7, 18, 0.9);
+      cursor: pointer;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      transition: var(--transition-fast);
+    }
+
+    .tag-filter.active,
+    .tag-filter:hover {
+      border-color: rgba(255, 196, 0, 0.8);
+      color: var(--primary-strong);
+      background: rgba(23, 15, 5, 0.9);
+    }
+
+    .search-input {
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-main);
+      font-size: 11px;
+      outline: none;
+      min-width: 160px;
+    }
+
+    .search-input::placeholder {
+      color: rgba(148, 163, 184, 0.7);
+    }
+
+    .table-scroll {
+      overflow: auto;
+      flex: 1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      min-width: 560px;
+    }
+
+    thead {
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    th, td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    th {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 10px;
+      color: var(--text-muted);
+      position: sticky;
+      top: 0;
+      background: rgba(15, 23, 42, 0.97);
+      z-index: 2;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    tbody tr:hover {
+      background: rgba(30, 64, 175, 0.6);
+    }
+
+    td.amount {
+      font-weight: 500;
+    }
+
+    .status-pill {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-pill.due {
+      background: rgba(248, 113, 113, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.7);
+      color: #fecaca;
+    }
+
+    .status-pill.paid {
+      background: rgba(52, 211, 153, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.7);
+      color: #bbf7d0;
+    }
+
+    .status-pill.pending {
+      background: rgba(251, 191, 36, 0.14);
+      border: 1px solid rgba(251, 191, 36, 0.7);
+      color: #fef9c3;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .table-action-btn {
+      font-size: 10px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: transparent;
+      color: var(--primary-strong);
+      cursor: pointer;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .table-action-btn:hover {
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    /* Services cards */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 6px;
+      font-size: 11px;
+    }
+
+    @media (max-width: 1100px) {
+      .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .services-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .service-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at 0 0, rgba(255, 165, 0, 0.25), transparent 60%),
+                  rgba(15, 23, 42, 0.95);
+      padding: 10px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .service-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .service-name {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .service-tag {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: #e5e7eb;
+    }
+
+    .service-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .service-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .service-meta span strong {
+      color: #e5e7eb;
+    }
+
+    .service-footer {
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .service-status {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.18);
+      border: 1px solid rgba(22, 163, 74, 0.7);
+      color: #bbf7d0;
+    }
+
+    .service-status.suspended {
+      background: rgba(248, 113, 113, 0.18);
+      border-color: rgba(248, 113, 113, 0.7);
+      color: #fecaca;
+    }
+
+    .service-actions button {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      cursor: pointer;
+    }
+
+    .service-actions button:hover {
+      border-color: rgba(255, 196, 0, 0.9);
+      color: var(--primary-strong);
+    }
+
+    /* Profile view simple */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 14px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 880px) {
+      .profile-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .profile-card {
+      border-radius: 15px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.94);
+      padding: 10px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .profile-card h4 {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .profile-field {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .profile-field span.value {
+      color: #e5e7eb;
+    }
+
+    .profile-card button {
+      margin-top: 6px;
+      align-self: flex-start;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal {
+      max-width: 420px;
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: radial-gradient(circle at 0 0, rgba(255, 200, 120, 0.3), transparent 60%),
+                  rgba(15, 23, 42, 0.98);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      padding: 14px 16px 12px;
+      font-size: 12px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .modal-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .modal-close {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: transparent;
+      color: #e5e7eb;
+      font-size: 12px;
+      padding: 3px 7px;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      margin-bottom: 10px;
+      color: var(--text-muted);
+    }
+
+    .modal-body strong {
+      color: #e5e7eb;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .modal-footer .btn-solid {
+      padding-inline: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html">
+  <img src="image.png" alt="Logo" height="60">
+</a>
+        <div class="logo-text">
+          <span><a href="intex.html" class="nolink">SLAZE.HOST</a></span>
+
+<style>
+  .nolink {
+    color: inherit;        /* same color as normal text */
+    text-decoration: none; /* removes underline */
+  }
+
+  .nolink:visited {
+    color: inherit;
+  }
+</style><br>
+        </div>
+      </div>
+
+      <div class="sidebar-balance">
+        <div class="sidebar-balance-top">
+          <span>Account Credit</span>
+          <span class="credit-chip">Autopay:Enabled</span>
+        </div>
+        <div class="sidebar-balance-main">
+          <div class="balance-amount"><span>₹</span> 420.00</div>
+          <button>Add Funds</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="sidebar-nav-title">Navigation</div>
+        <ul class="sidebar-nav">
+          <li class="nav-item active" data-view="dashboard-view">
+            <span class="label">
+              <span class="icon">📊</span>
+              <span>Dashboard</span>
+            </span>
+            <small>Overview</small>
+          </li>
+          <li class="nav-item" data-view="services-view">
+            <span class="label">
+              <span class="icon">🖥️</span>
+              <span>My Services</span>
+            </span>
+            <small>Servers</small>
+          </li>
+          <li class="nav-item" data-view="invoices-view">
+            <span class="label">
+              <span class="icon">🧾</span>
+              <span>Invoices</span>
+            </span>
+            <small>Billing</small>
+          </li>
+          <li class="nav-item" data-view="profile-view">
+            <span class="label">
+              <span class="icon">👤</span>
+              <span>Profile</span>
+            </span>
+            <small>Account</small>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        Need help? Open a ticket on our <strong>24/7 support portal</strong> or join
+        the Discord for faster responses.
+      </div>
+    </aside>
+
+    <!-- MAIN PANEL -->
+    <main class="main-panel">
+      <header class="main-header">
+        <div class="main-header-left">
+          <div class="main-title">
+            Billing <span>Dashboard</span>
+          </div>
+          <div class="main-subtitle">
+            View due invoices, manage your services and keep your Slaze.host account up to date.
+          </div>
+        </div>
+        <div class="main-header-right">
+          <div class="pill-alert">
+            1 unpaid invoice due in <strong>3 days</strong>
+          </div>
+          <div class="user-chip">
+            <div class="user-avatar">SG</div>
+            <div>
+              Saras Gamer
+              <small>Client ID: #12984</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Summary cards -->
+      <section class="summary-row">
+        <article class="summary-card">
+          <div class="summary-label">Unpaid Invoices</div>
+          <div class="summary-main">
+            <div class="summary-value">₹349.00</div>
+            <div class="summary-chip">1 invoice due</div>
+          </div>
+          <div class="summary-footer">
+            Next invoice for <span>Minecraft Standard</span>.
+          </div>
+        </article>
+
+        <article class="summary-card">
+          <div class="summary-label">Active Services</div>
+          <div class="summary-main">
+            <div class="summary-value">3</div>
+            <div class="summary-chip">All online</div>
+          </div>
+          <div class="summary-footer">
+            1 × Minecraft, 1 × VPS, 1 × Discord bot.
+          </div>
+        </article>
+
+        <article class="summary-card">
+          <div class="summary-label">Last Payment</div>
+          <div class="summary-main">
+            <div class="summary-value">₹229.00</div>
+            <div class="summary-chip">Successful</div>
+          </div>
+          <div class="summary-footer">
+            Paid via <span>UPI</span> on 02 Dec.
+          </div>
+        </article>
+
+        <article class="summary-card">
+          <div class="summary-label">Support</div>
+          <div class="summary-main">
+            <div class="summary-value">2</div>
+            <div class="summary-chip">Open tickets</div>
+          </div>
+          <div class="summary-footer">
+            Avg reply time: <span>8 minutes</span>.
+          </div>
+        </article>
+      </section>
+
+      <!-- Views -->
+      <section class="views-container">
+        <!-- DASHBOARD VIEW -->
+        <section class="view active" id="dashboard-view">
+          <div class="view-inner">
+            <div class="view-header">
+              <div class="view-title">Recent <span>Invoices</span></div>
+              <div class="view-actions">
+                <button class="btn-ghost" data-open-view="invoices-view">View all</button>
+                <button class="btn-solid" data-open-modal="pay-next">Pay next due</button>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <div class="table-controls">
+                <div class="table-filters">
+                  <span>Filter:</span>
+                  <button class="tag-filter active" data-status="all">All</button>
+                  <button class="tag-filter" data-status="unpaid">Unpaid</button>
+                  <button class="tag-filter" data-status="paid">Paid</button>
+                </div>
+                <div>
+                  <input type="text" id="invoice-search" class="search-input" placeholder="Search invoice # or service" />
+                </div>
+              </div>
+
+              <div class="table-scroll">
+                <table id="invoice-table">
+                  <thead>
+                    <tr>
+                      <th>Invoice #</th>
+                      <th>Date</th>
+                      <th>Service</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-status="unpaid">
+                      <td>#INV-1034</td>
+                      <td>05 Dec 2025</td>
+                      <td>Minecraft Standard - Mumbai</td>
+                      <td class="amount">₹349.00</td>
+                      <td>
+                        <span class="status-pill due">
+                          <span class="status-dot"></span> Unpaid
+                        </span>
+                      </td>
+                      <td>
+                        <button class="table-action-btn" data-open-modal="inv-1034">Pay</button>
+                      </td>
+                    </tr>
+                    <tr data-status="paid">
+                      <td>#INV-1033</td>
+                      <td>02 Dec 2025</td>
+                      <td>DDoS Game Basic</td>
+                      <td class="amount">₹229.00</td>
+                      <td>
+                        <span class="status-pill paid">
+                          <span class="status-dot"></span> Paid
+                        </span>
+                      </td>
+                      <td>
+                        <button class="table-action-btn" data-open-modal="inv-1033">View</button>
+                      </td>
+                    </tr>
+                    <tr data-status="paid">
+                      <td>#INV-1032</td>
+                      <td>25 Nov 2025</td>
+                      <td>VPS-2G Frankfurt</td>
+                      <td class="amount">₹399.00</td>
+                      <td>
+                        <span class="status-pill paid">
+                          <span class="status-dot"></span> Paid
+                        </span>
+                      </td>
+                      <td>
+                        <button class="table-action-btn" data-open-modal="inv-1032">View</button>
+                      </td>
+                    </tr>
+                    <tr data-status="pending">
+                      <td>#INV-1031</td>
+                      <td>20 Nov 2025</td>
+                      <td>Discord Bot Hosting</td>
+                      <td class="amount">₹149.00</td>
+                      <td>
+                        <span class="status-pill pending">
+                          <span class="status-dot"></span> Pending
+                        </span>
+                      </td>
+                      <td>
+                        <button class="table-action-btn" data-open-modal="inv-1031">View</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SERVICES VIEW -->
+        <section class="view" id="services-view">
+          <div class="view-inner">
+            <div class="view-header">
+              <div class="view-title">My <span>Services</span></div>
+              <div class="view-actions">
+                <button class="btn-ghost">Order new</button>
+                <button class="btn-solid">Open ticket</button>
+              </div>
+            </div>
+
+            <div class="services-grid">
+              <article class="service-card">
+                <div class="service-header">
+                  <div class="service-name">Minecraft Standard</div>
+                  <span class="service-tag">MC-STD-6G</span>
+                </div>
+                <div class="service-meta">
+                  <span>IP: <strong>mc.slaze.host:25565</strong></span>
+                  <span>Location: <strong>Mumbai</strong></span>
+                  <span>Renews: <strong>05 Dec 2025</strong></span>
+                </div>
+                <div class="service-footer">
+                  <span class="service-status">Active</span>
+                  <div class="service-actions">
+                    <button>Manage</button>
+                    <button>Console</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="service-card">
+                <div class="service-header">
+                  <div class="service-name">VPS-2G Ryzen</div>
+                  <span class="service-tag">VPS-2G</span>
+                </div>
+                <div class="service-meta">
+                  <span>IP: <strong>91.120.21.8</strong></span>
+                  <span>Location: <strong>Frankfurt</strong></span>
+                  <span>Renews: <strong>25 Dec 2025</strong></span>
+                </div>
+                <div class="service-footer">
+                  <span class="service-status">Active</span>
+                  <div class="service-actions">
+                    <button>Manage</button>
+                    <button>Reboot</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="service-card">
+                <div class="service-header">
+                  <div class="service-name">Discord Bot Node</div>
+                  <span class="service-tag">BOT-1G</span>
+                </div>
+                <div class="service-meta">
+                  <span>Location: <strong>Singapore</strong></span>
+                  <span>Renews: <strong>20 Dec 2025</strong></span>
+                </div>
+                <div class="service-footer">
+                  <span class="service-status suspended">Suspended</span>
+                  <div class="service-actions">
+                    <button>Pay invoice</button>
+                    <button>Upgrade</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- INVOICES FULL VIEW -->
+        <section class="view" id="invoices-view">
+          <div class="view-inner">
+            <div class="view-header">
+              <div class="view-title">All <span>Invoices</span></div>
+              <div class="view-actions">
+                <button class="btn-ghost" onclick="window.print()">Export / Print</button>
+              </div>
+            </div>
+            <!-- Reuse same table (more invoices in real site) -->
+            <div class="table-wrapper">
+              <div class="table-controls">
+                <div class="table-filters">
+                  <span>Status:</span>
+                  <button class="tag-filter active" data-status="all">All</button>
+                  <button class="tag-filter" data-status="unpaid">Unpaid</button>
+                  <button class="tag-filter" data-status="paid">Paid</button>
+                  <button class="tag-filter" data-status="pending">Pending</button>
+                </div>
+                <div>
+                  <input type="text" class="search-input" placeholder="Search in invoices" />
+                </div>
+              </div>
+              <div class="table-scroll">
+                <!-- We can just clone the earlier table -->
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Invoice #</th>
+                      <th>Date</th>
+                      <th>Service</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-status="unpaid">
+                      <td>#INV-1034</td>
+                      <td>05 Dec 2025</td>
+                      <td>Minecraft Standard - Mumbai</td>
+                      <td class="amount">₹349.00</td>
+                      <td>
+                        <span class="status-pill due"><span class="status-dot"></span> Unpaid</span>
+                      </td>
+                      <td><button class="table-action-btn" data-open-modal="inv-1034">Pay</button></td>
+                    </tr>
+                    <tr data-status="paid">
+                      <td>#INV-1033</td>
+                      <td>02 Dec 2025</td>
+                      <td>DDoS Game Basic</td>
+                      <td class="amount">₹229.00</td>
+                      <td>
+                        <span class="status-pill paid"><span class="status-dot"></span> Paid</span>
+                      </td>
+                      <td><button class="table-action-btn" data-open-modal="inv-1033">View</button></td>
+                    </tr>
+                    <tr data-status="paid">
+                      <td>#INV-1032</td>
+                      <td>25 Nov 2025</td>
+                      <td>VPS-2G Frankfurt</td>
+                      <td class="amount">₹399.00</td>
+                      <td>
+                        <span class="status-pill paid"><span class="status-dot"></span> Paid</span>
+                      </td>
+                      <td><button class="table-action-btn" data-open-modal="inv-1032">View</button></td>
+                    </tr>
+                    <tr data-status="pending">
+                      <td>#INV-1031</td>
+                      <td>20 Nov 2025</td>
+                      <td>Discord Bot Hosting</td>
+                      <td class="amount">₹149.00</td>
+                      <td>
+                        <span class="status-pill pending"><span class="status-dot"></span> Pending</span>
+                      </td>
+                      <td><button class="table-action-btn" data-open-modal="inv-1031">View</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROFILE VIEW -->
+        <section class="view" id="profile-view">
+          <div class="view-inner">
+            <div class="view-header">
+              <div class="view-title">Account <span>Profile</span></div>
+              <div class="view-actions">
+                <button class="btn-ghost">Logout</button>
+              </div>
+            </div>
+
+            <div class="profile-grid">
+              <div class="profile-card">
+                <h4>Contact Details</h4>
+                <div class="profile-field">
+                  <span>Name</span>
+                  <span class="value">Saras Gamer</span>
+                </div>
+                <div class="profile-field">
+                  <span>Email</span>
+                  <span class="value">you@example.com</span>
+                </div>
+                <div class="profile-field">
+                  <span>Phone</span>
+                  <span class="value">+91 98765 43210</span>
+                </div>
+                <div class="profile-field">
+                  <span>Country</span>
+                  <span class="value">India</span>
+                </div>
+                <button class="btn-solid">Edit details</button>
+              </div>
+
+              <div class="profile-card">
+                <h4>Billing Settings</h4>
+                <div class="profile-field">
+                  <span>Default currency</span>
+                  <span class="value">₹ INR</span>
+                </div>
+                <div class="profile-field">
+                  <span>Auto-pay</span>
+                  <span class="value">Enabled (UPI)</span>
+                </div>
+                <div class="profile-field">
+                  <span>Invoice notifications</span>
+                  <span class="value">Email + Discord</span>
+                </div>
+                <button class="btn-ghost">Manage payment methods</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">Invoice payment</div>
+        <button class="modal-close" id="modal-close">Close</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        Paying invoice <strong>#INV-1034</strong> for <strong>₹349.00</strong>.<br />
+        Select your payment method on the next step.
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" id="modal-cancel">Cancel</button>
+        <button class="btn-solid">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sidebar navigation -> switch views
+    const navItems = document.querySelectorAll(".nav-item");
+    const views = document.querySelectorAll(".view");
+
+    navItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const target = item.getAttribute("data-view");
+        navItems.forEach((i) => i.classList.remove("active"));
+        item.classList.add("active");
+        views.forEach((view) => {
+          view.classList.toggle("active", view.id === target);
+        });
+      });
+    });
+
+    // Buttons to jump to view
+    document.querySelectorAll("[data-open-view]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-open-view");
+        const targetNav = document.querySelector(`.nav-item[data-view="${target}"]`);
+        if (targetNav) targetNav.click();
+      });
+    });
+
+    // Invoice filtering in dashboard table
+    const invoiceTable = document.getElementById("invoice-table");
+    const searchInput = document.getElementById("invoice-search");
+    const tagFilters = document.querySelectorAll(".table-controls .tag-filter");
+
+    function filterInvoices() {
+      if (!invoiceTable) return;
+      const status = document.querySelector(".table-controls .tag-filter.active")?.dataset.status || "all";
+      const search = (searchInput?.value || "").toLowerCase();
+      invoiceTable.querySelectorAll("tbody tr").forEach((row) => {
+        const rowStatus = row.dataset.status;
+        const text = row.innerText.toLowerCase();
+        const matchStatus = status === "all" || rowStatus === status;
+        const matchSearch = !search || text.includes(search);
+        row.style.display = matchStatus && matchSearch ? "" : "none";
+      });
+    }
+
+    tagFilters.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tagFilters.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        filterInvoices();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener("input", filterInvoices);
+    }
+
+    // Modal logic
+    const modalBackdrop = document.getElementById("modal");
+    const modalTitle = document.getElementById("modal-title");
+    const modalBody = document.getElementById("modal-body");
+    const modalClose = document.getElementById("modal-close");
+    const modalCancel = document.getElementById("modal-cancel");
+
+    function openInvoiceModal(code) {
+      // Simple demo messages
+      if (code === "pay-next" || code === "inv-1034") {
+        modalTitle.textContent = "Pay invoice #INV-1034";
+        modalBody.innerHTML =
+          'You are about to pay <strong>₹349.00</strong> for <strong>Minecraft Standard - Mumbai</strong>.<br />Choose your payment method in the next step.';
+      } else {
+        modalTitle.textContent = "Invoice details";
+        modalBody.innerHTML =
+          "This is a demo invoice preview. In a real panel, you would see line items, taxes and payment history here.";
+      }
+      modalBackdrop.classList.add("active");
+    }
+
+    document.querySelectorAll("[data-open-modal]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        openInvoiceModal(btn.getAttribute("data-open-modal"));
+      });
+    });
+
+    function closeModal() {
+      modalBackdrop.classList.remove("active");
+    }
+
+    modalClose.addEventListener("click", closeModal);
+    modalCancel.addEventListener("click", closeModal);
+    modalBackdrop.addEventListener("click", (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+  </script>
+</body>
+<head>
+      <style>
+        body {
+          margin: 0;
+          padding: 0;
+          background: url("billing bg.jpg") no-repeat center center fixed;
+          background-size: cover;
+          /* makes the image fill the whole page */
+        }
+      </style>
+    </head>
+</html>

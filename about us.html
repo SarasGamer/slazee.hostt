@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About Us - Slaze</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Font (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-main: #050816;
+      --bg-card: #0b1020;
+      --accent: #ffb347;
+      --accent-soft: rgba(255, 179, 71, 0.15);
+      --text-main: #f5f5f5;
+      --text-muted: #a0a4b8;
+      --border-soft: rgba(255, 255, 255, 0.06);
+      --danger: #ff4b6a;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #151b3c 0, #050816 40%, #02030a 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .glow-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255, 179, 71, 0.13) 0, transparent 55%),
+        radial-gradient(circle at 90% 0%, rgba(119, 77, 255, 0.22) 0, transparent 55%);
+      opacity: 0.75;
+      mix-blend-mode: screen;
+      z-index: -1;
+    }
+
+    header {
+      padding: 1.2rem 7vw 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffb347, #ff6b81);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #050816;
+      box-shadow: 0 0 25px rgba(255, 179, 71, 0.7);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-text span:first-child {
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .logo-text span:last-child {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .nav-pill {
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      backdrop-filter: blur(14px);
+      background: rgba(5, 8, 22, 0.5);
+    }
+
+    .nav-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #44ff9a;
+      box-shadow: 0 0 14px rgba(68, 255, 154, 0.7);
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem 7vw 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 2.4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 820px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(5, 8, 22, 0.7);
+      backdrop-filter: blur(10px);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 4vw, 3rem);
+      margin-bottom: 0.6rem;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #ffb347, #ff6b81);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 540px;
+      line-height: 1.6;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-highlight {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-pill {
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(11, 16, 32, 0.9);
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--text-muted);
+    }
+
+    .hero-pill-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-top: 0.75rem;
+    }
+
+    .metric {
+      min-width: 90px;
+    }
+
+    .metric-value {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .hero-card {
+      border-radius: 24px;
+      padding: 1.3rem 1.4rem;
+      background: radial-gradient(circle at top left, rgba(255, 179, 71, 0.15), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(119, 77, 255, 0.18), transparent 60%),
+                  #050817;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      background: conic-gradient(from 180deg, rgba(255, 179, 71, 0.2), transparent, rgba(119, 77, 255, 0.2), transparent, rgba(255, 179, 71, 0.2));
+      filter: blur(30px);
+      opacity: 0.35;
+      z-index: -1;
+      animation: slow-spin 16s linear infinite;
+    }
+
+    @keyframes slow-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-card-title {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .hero-card-chip {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(5, 8, 22, 0.8);
+    }
+
+    .hero-card-chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #44ff9a;
+    }
+
+    .hero-card-body {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      font-size: 0.75rem;
+    }
+
+    .hero-card-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .hero-card-pill {
+      padding: 0.22rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(5, 8, 22, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .hero-card-status {
+      font-size: 0.7rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .hero-card-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(255, 179, 71, 0.9);
+    }
+
+    .owners-section {
+      margin-top: 0.5rem;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .section-heading h2 {
+      font-size: 1.25rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .owners-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.4rem;
+    }
+
+    @media (max-width: 720px) {
+      .owners-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .owner-card {
+      position: relative;
+      border-radius: 20px;
+      padding: 1.1rem 1.1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(255, 179, 71, 0.12), rgba(11, 16, 32, 0.95));
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+      cursor: default;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .owner-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0 0, rgba(255, 179, 71, 0.25), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    .owner-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.75);
+      border-color: rgba(255, 179, 71, 0.6);
+    }
+
+    .owner-card:hover::before {
+      opacity: 1;
+    }
+
+    .owner-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .owner-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: radial-gradient(circle at 30% 0, #ffb347, #ff6b81);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #050816;
+      box-shadow: 0 0 14px rgba(255, 179, 71, 0.7);
+    }
+
+    .owner-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .owner-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .owner-role {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .owner-tagline {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .owner-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0.9rem;
+      font-size: 0.72rem;
+    }
+
+    .owner-stat {
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 8, 22, 0.75);
+      color: var(--text-muted);
+    }
+
+    .owner-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .owner-focus {
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
+
+    .owner-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      background: linear-gradient(135deg, #ffb347, #ff6b81);
+      color: #050816;
+      box-shadow: 0 0 15px rgba(255, 179, 71, 0.65);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 22px rgba(255, 179, 71, 0.9);
+    }
+
+    .btn-ghost {
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(5, 8, 22, 0.8);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(10, 14, 30, 0.95);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-icon {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 3, 10, 0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 40;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease-out;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      max-width: 460px;
+      width: 100%;
+      border-radius: 20px;
+      background: radial-gradient(circle at top, rgba(255, 179, 71, 0.2), #050816 55%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 1.2rem 1.3rem 1.3rem;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85);
+      transform: translateY(10px) scale(0.98);
+      opacity: 0;
+      transition: opacity 0.17s ease-out, transform 0.17s ease-out;
+      position: relative;
+    }
+
+    .modal-backdrop.active .modal {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 0.65rem;
+      right: 0.75rem;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(5, 8, 22, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .modal-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 30% 0, #ffb347, #ff6b81);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #050816;
+      box-shadow: 0 0 18px rgba(255, 179, 71, 0.85);
+    }
+
+    .modal-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .modal-name {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .modal-role {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .modal-body {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 0.9rem;
+    }
+
+    .modal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.6rem;
+    }
+
+    .modal-label {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .modal-value {
+      font-size: 0.82rem;
+    }
+
+    .modal-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .modal-chip {
+      padding: 0.28rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(5, 8, 22, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      font-size: 0.76rem;
+    }
+
+    .modal-footer-note {
+      margin-right: auto;
+      color: var(--text-muted);
+      opacity: 0.85;
+    }
+
+    footer {
+      padding: 1.1rem 7vw 1.4rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: radial-gradient(circle at bottom, rgba(255, 179, 71, 0.08), rgba(5, 8, 22, 0.95));
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      text-decoration: none;
+      color: var(--text-muted);
+      position: relative;
+      padding-bottom: 1px;
+    }
+
+    .footer-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, #ffb347, #ff6b81);
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.15s ease-out;
+    }
+
+    .footer-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    .footer-pill {
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.72rem;
+      background: rgba(5, 8, 22, 0.9);
+    }
+
+    .footer-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #44ff9a;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-overlay"></div>
+
+  <!-- Top Header -->
+  <header>
+    <div class="logo">
+      
+      <a href="plansup3.html">
+  <img src="image.png" alt="Logo" height="60">
+</a>
+        <div class="logo-text">
+          <span><a href="plansup3.html" class="nolink">SLAZE.HOST</a>
+
+<style>
+  .nolink {
+    color: inherit;        /* same color as normal text */
+    text-decoration: none; /* removes underline */
+  }
+
+  .nolink:visited {
+    color: inherit;
+  }
+</style></span>
+        <span>Next-Gen Hosting Experience</span>
+      </div>
+    </div>
+    <div class="nav-pill">
+      <div class="nav-dot"></div>
+      About the creators
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero / Intro -->
+    <section class="hero">
+      <div>
+        <div class="hero-tag">
+          <span class="hero-tag-dot"></span>
+          Built by gamers, crafted for creators
+        </div>
+        <h1>
+          Meet the minds behind <span>Slaze</span>.
+        </h1>
+        <p class="hero-sub">
+          We’re not just another hosting brand. Slaze is a passion project built by two friends who live and breathe
+          performance, uptime and community — with a bit of chaos and fun mixed in.
+        </p>
+
+        <div class="hero-highlight">
+          <div class="hero-pill">
+            <div class="hero-pill-icon">⚡</div>
+            24/7 uptime-first mindset
+          </div>
+          <div class="hero-pill">
+            <div class="hero-pill-icon">🎮</div>
+            Optimized for games & creators
+          </div>
+          <div class="hero-pill">
+            <div class="hero-pill-icon">🤝</div>
+            Community-driven support
+          </div>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric">
+            <div class="metric-value">2+</div>
+            <div class="metric-label">Founders aligned on one vision</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">100%</div>
+            <div class="metric-label">Self-built, self-managed</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">∞</div>
+            <div class="metric-label">Ideas & late-night deploys</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Side Card -->
+      <aside class="hero-card">
+        <div class="hero-card-header">
+          <div class="hero-card-title">Why Slaze exists</div>
+          <div class="hero-card-chip">
+            <span class="hero-card-chip-dot"></span>
+            Built for control freaks
+          </div>
+        </div>
+        <div class="hero-card-body">
+          We wanted a place where performance, design, and transparency actually matter. No hidden throttling, no
+          ugly panels, no ghosted support — just clean infra and honest communication.
+        </div>
+        <div class="hero-card-footer">
+          <div class="hero-card-stack">
+            <span class="hero-card-pill">Player-first approach</span>
+            <span class="hero-card-pill">Instant scaling</span>
+            <span class="hero-card-pill">Security obsessed</span>
+          </div>
+          <div class="hero-card-status">
+            <span class="hero-card-status-dot"></span>
+            Always shipping something new
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Owners Section -->
+    <section class="owners-section">
+      <div class="section-heading">
+        <h2>Owners & Core Team</h2>
+        <p class="section-subtitle">
+          Two people, one goal: making your projects feel unfairly powerful.
+        </p>
+      </div>
+
+        <!-- Owner: Raman -->
+       
+      <div class="owners-grid">
+         <article class="owner-card" data-owner="raman">
+          <div class="owner-header">
+            <a>
+            <img src="jotor.jpg" alt="Logo" height="60">
+          </a>
+            <div class="owner-meta">
+              <span class="owner-name">Raman</span>
+              <span class="owner-role">Founder · Product & Community</span>
+            </div>
+          </div>
+          <p class="owner-tagline">
+            Raman designs the experience — from how the dashboard feels to how fast you get a reply when something
+            explodes. If you like the vibe, it’s probably his fault.
+          </p>
+          <div class="owner-stats">
+            <span class="owner-stat">UI/UX obsessed</span>
+            <span class="owner-stat">Handles support & feedback</span>
+            <span class="owner-stat">Loves clean brand aesthetics</span>
+          </div>
+          <div class="owner-actions">
+            <div class="owner-focus">Focus: design, support, roadmap</div>
+            <div class="owner-buttons">
+              <button class="btn-primary" data-open-profile="raman">
+                <span class="btn-icon">👁️</span>
+                View profile
+              </button>
+              <button class="btn-ghost">
+                <span class="btn-icon">📩</span>
+                Talk about features
+              </button>
+            </div>
+          </div>
+        </article>
+        <!-- Owner: Void -->
+        <article class="owner-card" data-owner="void">
+          <div class="owner-header">
+            <a>
+            <img src="void.png" alt="Logo" height="60">
+          </a>
+            <div class="owner-meta">
+              <span class="owner-name">Void</span>
+              <span class="owner-role">Founder · Infrastructure & Backend</span>
+            </div>
+          </div>
+          <p class="owner-tagline">
+            Void turns chaos into clean architecture. From bare-metal machines to tiny micro-optimizations, he makes
+            sure everything just <strong>does not die</strong>.
+          </p>
+          <div class="owner-stats">
+            <span class="owner-stat">Latency nerd</span>
+            <span class="owner-stat">Loves Linux & containers</span>
+            <span class="owner-stat">Breaks & fixes servers for fun</span>
+          </div>
+          <div class="owner-actions">
+            <div class="owner-focus">Focus: performance, reliability, security</div>
+            <div class="owner-buttons">
+              <button class="btn-primary" data-open-profile="void">
+                <span class="btn-icon">👁️</span>
+                View profile
+              </button>
+              <button class="btn-ghost">
+                <span class="btn-icon">💬</span>
+                Ask about infra
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Owner Profile Modal -->
+  <div class="modal-backdrop" id="ownerModal">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close profile">✕</button>
+
+      <div class="modal-header">
+        <div class="modal-avatar" id="modalAvatar">V</div>
+        <div class="modal-title">
+          <span class="modal-name" id="modalName">Void</span>
+          <span class="modal-role" id="modalRole">Co-Founder · Infrastructure & Backend</span>
+        </div>
+      </div>
+
+      <div class="modal-body" id="modalBio">
+        <!-- Filled by JavaScript -->
+      </div>
+
+      <div class="modal-row">
+        <span class="modal-label">Current focus</span>
+        <span class="modal-value" id="modalFocus">Scaling nodes, hardening security & chasing lower ping.</span>
+      </div>
+
+      <div class="modal-row">
+        <span class="modal-label">Vibe check</span>
+        <span class="modal-value" id="modalVibe">Calm in emergencies, allergic to downtime.</span>
+      </div>
+
+      <div class="modal-chips" id="modalTags">
+        <!-- Filled by JavaScript -->
+      </div>
+
+      <div class="modal-footer">
+        <span class="modal-footer-note">
+          Tip: you’ll usually find them online when something big is shipping.
+        </span>
+        <button class="btn-ghost" id="modalSecondary">
+          <span class="btn-icon">📎</span>
+          Copy profile tag
+        </button>
+        <button class="btn-primary" id="modalPrimary">
+          <span class="btn-icon">🚀</span>
+          Ping on Discord
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        © <span id="year"></span> Slaze. Built with too much caffeine and zero shortcuts.
+        <div> Made By Saras and BeingVoid</div>
+      </div>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Status</a>
+        <a href="#" class="footer-link">Terms</a>
+        <a href="#" class="footer-link">Privacy</a>
+        <span class="footer-pill">
+          <span class="footer-dot"></span>
+          Community-powered project
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const modalBackdrop = document.getElementById("ownerModal");
+    const modalClose = document.getElementById("modalClose");
+    const modalAvatar = document.getElementById("modalAvatar");
+    const modalName = document.getElementById("modalName");
+    const modalRole = document.getElementById("modalRole");
+    const modalBio = document.getElementById("modalBio");
+    const modalFocus = document.getElementById("modalFocus");
+    const modalVibe = document.getElementById("modalVibe");
+    const modalTags = document.getElementById("modalTags");
+    const modalPrimary = document.getElementById("modalPrimary");
+    const modalSecondary = document.getElementById("modalSecondary");
+
+    // Profile data (edit this easily)
+    const owners = {
+      
+      raman: {
+        avatar: "R",
+        name: "Raman",
+        role: "Founder · Product & Community",
+        bio: `
+          Raman focuses on how Slaze feels — from the first impression on the site to the tiny
+          details inside the dashboard. He reads every bit of feedback, turns chaos into roadmaps
+          and makes sure users feel actually heard instead of ignored.
+        `,
+        focus: "Polishing UX, handling community, planning what ships next.",
+        vibe: "Friendly, responsive, obsessed with tiny design details.",
+        tags: [
+          "Product thinking",
+          "UI/UX & branding",
+          "Community management",
+          "Support & communication"
+        ],
+        primaryLabel: "DM Raman on Discord",
+        secondaryLabel: "Copy jotorgaming"
+      },
+      void: {
+        avatar: "V",
+        name: "Void",
+        role: "Founder · Infrastructure & Backend",
+        bio: `
+          Void is responsible for everything under the hood — nodes, containers, firewalls and all
+          the invisible glue that makes Slaze feel fast and stable. When a server survives a traffic
+          spike at 3 AM, it's usually thanks to weeks of planning and overthinking from his side.
+        `,
+        focus: "Keeping latency low, uptime high and infra boringly stable.",
+        vibe: "Quiet, efficient, hates downtime more than anything.",
+        tags: [
+          "Backend & infra",
+          "Low-level debugging",
+          "Monitoring & observability",
+          "Security-first mindset"
+        ],
+        primaryLabel: "Ping Void on Discord",
+        secondaryLabel: "Copy itzvoid176"
+      }
+    };
+
+    function openProfile(ownerKey) {
+      const owner = owners[ownerKey];
+      if (!owner) return;
+
+      modalAvatar.textContent = owner.avatar;
+      modalName.textContent = owner.name;
+      modalRole.textContent = owner.role;
+      modalBio.innerHTML = owner.bio;
+      modalFocus.textContent = owner.focus;
+      modalVibe.textContent = owner.vibe;
+
+      modalTags.innerHTML = "";
+      owner.tags.forEach((tag) => {
+        const chip = document.createElement("span");
+        chip.className = "modal-chip";
+        chip.textContent = tag;
+        modalTags.appendChild(chip);
+      });
+
+      modalPrimary.textContent = owner.primaryLabel;
+      modalSecondary.textContent = owner.secondaryLabel;
+
+      modalPrimary.onclick = () => {
+        alert("This would open a Discord DM link. 🚀");
+      };
+      modalSecondary.onclick = () => {
+        navigator.clipboard
+          .writeText(owner.name + "#0000")
+          .then(() => alert("Copied " + owner.name + "#0000 to clipboard!"))
+          .catch(() => alert("Could not copy, but tag is: " + owner.name + "#0000"));
+      };
+
+      modalBackdrop.classList.add("active");
+    }
+
+    // Attach open handlers
+    document.querySelectorAll("[data-open-profile]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const ownerKey = btn.getAttribute("data-open-profile");
+        openProfile(ownerKey);
+      });
+    });
+
+    // Close handlers
+    modalClose.addEventListener("click", () => {
+      modalBackdrop.classList.remove("active");
+    });
+
+    modalBackdrop.addEventListener("click", (e) => {
+      if (e.target === modalBackdrop) {
+        modalBackdrop.classList.remove("active");
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        modalBackdrop.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>

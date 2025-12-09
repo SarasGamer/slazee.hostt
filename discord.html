@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Discord Invite Links</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #0b0b10;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .wrapper {
+      background: #11121a;
+      border-radius: 18px;
+      padding: 24px 26px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      border: 1px solid #23263a;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: #a2a7d4;
+      margin-bottom: 18px;
+    }
+
+    .server-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .server-card {
+      background: #171826;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #22253a;
+    }
+
+    .server-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .server-name {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .server-desc {
+      font-size: 12px;
+      color: #9ca0c8;
+    }
+
+    /* Invite button (link but not blue/underlined) */
+    .invite-btn {
+      text-decoration: none;   /* removes underline */
+      background: #5865f2;
+      color: #ffffff;          /* not blue default */
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .invite-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(88, 101, 242, 0.7);
+      opacity: 0.95;
+    }
+
+    .invite-btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+      opacity: 0.8;
+    }
+
+    .bottom-note {
+      margin-top: 8px;
+      text-align: center;
+      font-size: 11px;
+      color: #7276a0;
+    }
+
+    @media (max-width: 480px) {
+      .server-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .invite-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1 class="title">Join Our Discord Servers</h1>
+    <p class="subtitle">Choose a server and click <b>Join</b> to get your invite.</p>
+
+    <div class="server-list">
+      <!-- Server 1 -->
+      <div class="server-card">
+        <div class="server-info">
+          <span class="server-name">Slaze Host </span>
+          <span class="server-desc">Support, tickets & updates.</span>
+        </div>
+        <a href="https://discord.gg/tHBTUvNTM8" class="invite-btn" target="_blank">
+          Join
+        </a>
+      </div>
+
+      <!-- Server 2 -->
+      <div class="server-card">
+        <div class="server-info">
+          <span class="server-name">Slaze Network</span>
+          <span class="server-desc">Chill chat, games & events</span>
+        </div>
+        <a href="https://discord.gg/K7zxVVWTFP" class="invite-btn" target="_blank">
+          Join
+        </a>
+      </div>
+
+      <!-- Server 3 -->
+      <!-- <div class="server-card">
+        <div class="server-info">
+          <span class="server-name">Minecraft Survival</span>
+          <span class="server-desc">SMP, events & giveaways.</span>
+        </div>
+        <a href="https://discord.gg/your-invite-3" class="invite-btn" target="_blank">
+          Join
+        </a>
+      </div>
+    </div> -->
+
+    
+  </div>
+</body>
+<head>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: url("https://wallpaperaccess.com/full/37444.jpg") no-repeat center center fixed;
+  background-size: cover;  /* makes the image fill the whole page */
+}
+</style>
+</head>
+</html>

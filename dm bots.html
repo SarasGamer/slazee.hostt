@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Discord Bot Plans – Slaze.Host</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617 60%),
+        #020617;
+      color: #f9fafb;
+    }
+
+    .page-wrap {
+      max-width: 1200px;
+      margin: 30px auto 50px;
+      padding: 24px 18px 32px;
+      border-radius: 26px;
+      background: radial-gradient(circle at top left, rgba(10, 12, 17, 0.448), #020617);
+      box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      backdrop-filter: blur(18px);
+    }
+
+    /* Top bar (logo + button example) */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 26px;
+    }
+
+    .brand-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .brand-name {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-name span {
+      color: #f4c819;
+    }
+
+    .brand-sub {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .primary-btn,
+    .ghost-btn {
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-size: 14px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 15px 35px rgba(52, 44, 25, 0.4);
+    }
+
+    .primary-btn {
+      background: radial-gradient(circle at top, #e5ba0e, #f28322);
+      color: #111827;
+      font-weight: 600;
+    }
+
+    .ghost-btn {
+      background: transparent;
+      color: #f7ca16;
+      box-shadow: none;
+      border: 1px solid rgba(250, 204, 21, 0.6);
+    }
+
+    /* Section header */
+    .plans-header {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .plans-header h1 {
+      font-size: 32px;
+      margin-bottom: 6px;
+    }
+
+    .plans-header p {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    /* Plans grid */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .plan-card {
+      border-radius: 22px;
+      padding: 18px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #f9fafb;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    }
+
+    .plan-card.starter {
+      background: radial-gradient(circle at top left, #166534, #052e16);
+    }
+
+    .plan-card.coder {
+      background: radial-gradient(circle at top left, #ea580c, #451a03);
+    }
+
+    .plan-card.developer {
+      background: radial-gradient(circle at top left, #0f172a, #020617);
+    }
+
+    .plan-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .plan-name {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .plan-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      background: rgba(19, 33, 64, 0.9);
+      color: #fab115;
+      border: 1px solid rgba(250, 204, 21, 0.7);
+    }
+
+    .plan-desc {
+      font-size: 13px;
+      color: #e5e7eb;
+      margin-bottom: 10px;
+      opacity: 0.95;
+    }
+
+    .price-row {
+      margin: 10px 0 12px;
+      font-size: 13px;
+      color: #e5e7eb;
+    }
+
+    .price-main {
+      font-size: 24px;
+      font-weight: 700;
+      margin-right: 4px;
+    }
+
+    .price-row span.currency {
+      font-size: 16px;
+      font-weight: 500;
+      vertical-align: top;
+    }
+
+    .price-row span.period {
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    .spec-list {
+      list-style: none;
+      font-size: 13px;
+      color: #f9fafb;
+    }
+
+    .spec-list li {
+      margin-bottom: 4px;
+    }
+
+    .spec-label {
+      font-weight: 600;
+    }
+
+    .support-note {
+      margin-top: 4px;
+      font-size: 12px;
+      opacity: 0.85;
+    }
+
+    .card-bottom {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: #e5e7eb8b;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(13, 21, 38, 0.8);
+      background: rgba(15, 23, 42, 0.6);
+      font-size: 11px;
+    }
+
+    .order-btn {
+      margin-top: 14px;
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-size: 13px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background: radial-gradient(circle at top, #5461f0, #5461f0);
+      color: #f9fafb;
+      font-weight: 600;
+      box-shadow: 0 12px 30px rgba(27, 46, 78, 0.482);
+    }
+
+    @media (max-width: 960px) {
+      .plans-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-wrap {
+        margin-top: 16px;
+        border-radius: 0;
+      }
+
+      .plans-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .top-actions {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page-wrap">
+    <!-- TOP BAR -->
+    <header class="top-bar">
+      <div class="logo">
+        <a href="plansup3.html">
+  <img src="image.png" alt="Logo" height="60">
+</a>
+        </span>
+        <div class="brand-sub">Games & VPS hosting</div>
+      </div>
+      <div class="top-actions">
+        <a href="#" class="primary-btn">Open Panel →</a>
+        <a href="login.html" class="primary-btn">Login</a>
+      </div>
+    </header>
+
+    <!-- PLANS SECTION -->
+    <section class="plans-section">
+      <div class="plans-header">
+        <h1>Discord Bot Plans</h1>
+        <p>Choose the perfect plan for your bot’s commands, events, and slash interactions.</p>
+      </div>
+
+      <div class="plans-grid">
+
+        <!-- STARTER -->
+        <article class="plan-card starter">
+          <div>
+            <div class="plan-top">
+              <div class="plan-name">Starter</div>
+              <div class="plan-tag">Entry Bot</div>
+            </div>
+            <p class="plan-desc">
+              Great for small servers, utility bots, or learning Discord bot development.
+            </p>
+
+            <div class="price-row">
+              <span class="currency">₹</span>
+              <span class="price-main">30</span>
+              <span class="period">/mo</span>
+            </div>
+
+            <ul class="spec-list">
+              <li><span class="spec-label">CPU:</span> 1 vCore shared</li>
+              <li><span class="spec-label">RAM:</span> 512 MB</li>
+              <li><span class="spec-label">Storage:</span> 5 GB NVMe</li>
+              <li><span class="spec-label">Uptime:</span> 99.9% monitored</li>
+              <li><span class="spec-label">Limit:</span> up to ~3 small bots</li>
+            </ul>
+            <p class="support-note">Email & Discord ticket support included.</p>
+          </div>
+
+          <div>
+            <a href="https://slaze.host/products/discord-bots/starter-discord"><button class="order-btn">Order Starter →</button></a>
+            <div class="card-bottom">
+              <span>Perfect for utility, logging, & welcome bots.</span>
+              <div class="pill-row">
+                
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- CODER -->
+        <article class="plan-card coder">
+          <div>
+            <div class="plan-top">
+              <div class="plan-name">Coder</div>
+              <div class="plan-tag">Growing Bot</div>
+            </div>
+            <p class="plan-desc">
+              Built for developers running feature-rich bots on medium Discord servers.
+            </p>
+
+            <div class="price-row">
+              <span class="currency">₹</span>
+              <span class="price-main">70</span>
+              <span class="period">/mo</span>
+            </div>
+
+            <ul class="spec-list">
+              <li><span class="spec-label">CPU:</span> 2 vCores</li>
+              <li><span class="spec-label">RAM:</span> 2 GB</li>
+              <li><span class="spec-label">Storage:</span> 15 GB NVMe</li>
+              <li><span class="spec-label">Uptime:</span> 99.95% monitored</li>
+              <li><span class="spec-label">Limit:</span> 1–3 active production bots</li>
+            </ul>
+            <p class="support-note">Priority Discord support & basic monitoring.</p>
+          </div>
+
+          <div>
+            <button class="order-btn">Order Coder →</button>
+            <div class="card-bottom">
+              <span>For music, economy, moderation & leveling bots.</span>
+              <div class="pill-row">
+                
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- DEVELOPER -->
+        <article class="plan-card developer">
+          <div>
+            <div class="plan-top">
+              <div class="plan-name">Developer</div>
+              <div class="plan-tag">Pro Bots</div>
+            </div>
+            <p class="plan-desc">
+              Power your large bots with high concurrency, web dashboards and APIs.
+            </p>
+
+            <div class="price-row">
+              <span class="currency">₹</span>
+              <span class="price-main">170</span>
+              <span class="period">/mo</span>
+            </div>
+
+            <ul class="spec-list">
+              <li><span class="spec-label">CPU:</span> 4 vCores</li>
+              <li><span class="spec-label">RAM:</span> 4 GB</li>
+              <li><span class="spec-label">Storage:</span> 30 GB NVMe</li>
+              <li><span class="spec-label">Uptime:</span> 99.99% w/ status page</li>
+              <li><span class="spec-label">Extras:</span> free MySQL / MongoDB instance</li>
+            </ul>
+            <p class="support-note">Advanced monitoring & Discord priority support.</p>
+          </div>
+
+          <div>
+            <button class="order-btn">Order Developer →</button>
+            <div class="card-bottom">
+              <span>Ideal for big public bots and SaaS-style projects.</span>
+              <div class="pill-row">
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </div>
+
+</body>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Slaze Host Landing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #020617, #020617 60%, #000 100%);
+      color: #e5e7eb;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    /* PAGE LAYOUT */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    main {
+      display: flex;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero {
+      flex: 1.2;
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    aside {
+      flex: 1;
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* Just a simple hero example */
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      opacity: 0.85;
+      margin-bottom: 12px;
+    }
+
+    /* Your snippet styles */
+    .hero-card-footer {
+      margin-top: 18px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 1);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 12px;
+    }
+
+    /* ---------- BOTTOM SECTION (DISCORD + FOOTER) ---------- */
+
+    .discord-cta-wrapper {
+      width: 100%;
+      margin-top: 40px;
+      display: block;
+    }
+
+    .discord-card {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 28px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #1d2b4a, #111827);
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .discord-left {
+      max-width: 550px;
+    }
+
+    .discord-chip {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(248, 250, 252, 0.06);
+      color: #e5e7eb;
+      margin-bottom: 8px;
+    }
+
+    .discord-left h2 {
+      font-size: 28px;
+      color: #f9fafb;
+    }
+
+    .discord-left h2 span {
+      color: #facc15;
+    }
+
+    .discord-left p {
+      margin-top: 8px;
+      color: #cbd5f5;
+      opacity: 0.9;
+    }
+
+    .discord-btn {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, #facc15, #f97316);
+      color: #111827;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .discord-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .discord-badge {
+      padding: 10px 16px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #e5e7eb;
+      font-size: 14px;
+    }
+
+    /* Footer */
+    .site-footer {
+      width: 100%;
+      background: #0a0e20;
+      margin-top: 32px;
+      padding: 32px 0 18px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto 18px;
+      display: grid;
+      gap: 24px;
+      grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+    }
+
+    .footer-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f9fafb;
+      margin-bottom: 6px;
+    }
+
+    .footer-logo span {
+      color: #ea981d;
+    }
+
+    .footer-inner h3 {
+      margin-bottom: 8px;
+      color: #e5e7eb;
+      font-size: 15px;
+    }
+
+    .footer-inner ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-inner li {
+      margin-bottom: 6px;
+    }
+
+    .footer-inner a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 10px;
+      border-top: 1px solid #8d9bbb;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .footer-badge {
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      color: #e5e7eb;
+    }
+
+    .footer-inner a:hover {
+      color: #facc15;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+      }
+
+      .discord-card {
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+    <main>
+      <!-- LEFT HERO (example) -->
+
+
+      <!-- RIGHT CARD (this contains your snippet at bottom) -->
+
+    </main>
+  </div>
+
+  <!-- BOTTOM SECTION (THIS SHOULD BE BELOW, NOT SIDEWAYS) -->
+  <section class="discord-cta-wrapper">
+    <div class="discord-card">
+      <div class="discord-left">
+        <div class="discord-chip">Community</div>
+        <h2>Join our <span>Discord server</span></h2>
+        <p>
+          Get support, talk with other players and stay updated with the latest
+          news from Slaze.Host.
+        </p>
+        <a href="discord.html" class="discord-btn">
+          <span>Join on Discord</span><span style="font-size:18px;">→</span>
+        </a>
+      </div>
+      <div class="discord-right">
+        <div class="discord-badge">🔔 Live announcements</div>
+        <div class="discord-badge">💬 24/7 support chat</div>
+        <div class="discord-badge">🎮 Events & giveaways</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+            <a href="plansup3.html"><img src="image.png" alt="Logo" height="60">
+            <div class="footer-logo"><span>SLAZE</span>.HOST</div></a>
+            <p style="max-width:320px;margin:0 0 10px;">
+              Premium game & VPS hosting with low latency, NVMe storage and friendly support.
+            </p>
+        <p style="font-size:12px;color:#6b7280;margin:0;">Made by Saras and BeingVoid</p>
+      </div>
+
+      <div>
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/client-area">Client Area</a></li>
+          <li><a href="plansup3.html"> Hosting Hub</a></li>
+          <li><a href="vps plans.html">VPS Hosting</a></li>
+          <li><a href="games plan.html">Game Server Hosting</a></li>
+          <li><a href="dm bots.html">Other Services</a></li>
+
+        </ul>
+      </div>
+
+      <div>
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="/tos">Terms of Service</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/refund">Refund Policy</a></li>
+          <li><a href="/sla">Service Level (SLA)</a></li>
+          <li><a href="/about">About Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Contact us</h3>
+        <ul>
+          <li>📧 <a href="mailto:support@slaze.host">support@slaze.host</a></li>
+          <li>📞 <a href="tel:+910000000000">+91 00000 00000</a></li>
+          <li>🎮 <a href="https://panel.slaze.host">panel.slaze.host</a></li>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 SLAZE.HOST. All rights reserved.</span>
+      <span class="footer-badge">99.9% Uptime • NVMe Powered</span>
+    </div>
+  </footer>
+</body>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url("https://wallpapercave.com/wp/wp8761707.jpg") no-repeat center center fixed;
+      background-size: cover;
+      /* makes the image fill the whole page */
+    }
+  </style>
+</head>
+</html>

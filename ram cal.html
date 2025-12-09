@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Minecraft RAM Calculator – Slaze Host</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --bg: #070921;
+      --bg2: #6a4c9f;
+      --card: #030517;
+      --card2: #2d6b5b;
+      --accent: #b057ff;
+      --accent-soft: #26133e;
+      --accent-strong: #df952d;
+      --text-main: #ffffff;
+      --text-soft: #b2abca;
+      --border-subtle: rgba(90, 28, 28, 0.08);
+      --radius-lg: 18px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #090b19, var(--bg));
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    /* HEADER */
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffb632, #be683a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #120916;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .header-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .header-btn {
+      font-size: 13px;
+      border-radius: 999px;
+      padding: 6px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(8, 3, 22, 0.9);
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .header-btn.primary {
+      background: linear-gradient(135deg, #ffb632, #ff7b36);
+      color: #120916;
+      border-color: transparent;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(255, 140, 40, 0.5);
+    }
+
+    /* MAIN LAYOUT */
+
+    .hero-title {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .hero-title span {
+      color: var(--accent-strong);
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--text-soft);
+      margin-bottom: 18px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    /* LEFT: CONFIG PANEL */
+
+    .panel {
+      background: radial-gradient(circle at top left, #1f180ed6, var(--card));
+      border-radius: 22px;
+      padding: 18px 20px 20px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    .panel-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .chip {
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(27, 21, 53, 0.9);
+      cursor: pointer;
+      color: var(--text-soft);
+    }
+
+    .chip.active {
+      background: linear-gradient(135deg, #2c6daa, #dab42a);
+      color: #16081f;
+      border-color: transparent;
+      font-weight: 600;
+    }
+
+    .field-group {
+      margin-bottom: 14px;
+    }
+
+    .field-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .field-label {
+      font-size: 13px;
+    }
+
+    .field-label span.icon {
+      margin-right: 6px;
+    }
+
+    .field-value {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .select-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(13, 10, 24, 0.874);
+      color: var(--text-main);
+      font-size: 13px;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider-row input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent);
+    }
+
+    .slider-number {
+      min-width: 38px;
+      text-align: right;
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .collapse-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: var(--text-soft);
+      cursor: default;
+    }
+
+    .sub-sliders {
+      border-radius: 14px;
+      background: rgba(36, 35, 38, 0.245);
+      padding: 10px 10px 6px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: grid;
+      gap: 8px;
+    }
+
+    .sub-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .sub-slider-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sub-slider-row input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent);
+    }
+
+    .sub-slider-value {
+      min-width: 28px;
+      text-align: right;
+      font-size: 12px;
+    }
+
+    /* RIGHT: RECOMMEND PANEL */
+
+    .panel-right {
+      background: radial-gradient(circle at top right, #3a2d15, var(--card2));
+      border-radius: 22px;
+      padding: 18px 18px 18px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .panel-right-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .panel-right-title {
+      font-size: 18px;
+    }
+
+    .panel-right-badge {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-soft);
+    }
+
+    .calc-ram-row {
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .calc-ram-row span.value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent-strong);
+      margin-left: 4px;
+    }
+
+    .status-row {
+      margin-top: 4px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-soft);
+      align-items: center;
+    }
+
+    .status-bar {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(26, 26, 26, 0.08);
+      overflow: hidden;
+      margin: 0 8px;
+    }
+
+    .status-bar-fill {
+      height: 100%;
+      width: 60%;
+      background: linear-gradient(90deg, #ffe86a, #ffb632);
+    }
+
+    .tier-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      background: rgba(8, 9, 43, 0.96);
+      border-radius: 999px;
+      padding: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 13px;
+    }
+
+    .tier-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-soft);
+      padding: 6px 0;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .tier-btn.active {
+      background: linear-gradient(135deg, #0b1328c4, #1a041a);
+      color: #a1a881;
+      font-weight: 600;
+      box-shadow: 0 8px 26px rgba(33, 19, 46, 0.6);
+    }
+
+    .cost-box {
+      margin-top: 6px;
+      background: rgba(4, 13, 41, 0.96);
+      border-radius: 14px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .cost-highlight {
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .plans-row {
+      margin-top: 6px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .plan-card {
+      border-radius: 16px;
+      background: rgba(6, 9, 26, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      padding: 10px 10px 12px;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+    }
+
+    .plan-card.active {
+      border-color: var(--accent-strong);
+      box-shadow: 0 0 0 1px rgba(255, 182, 50, 0.6), 0 12px 36px rgba(255, 182, 50, 0.45);
+      background: linear-gradient(145deg, #060010, #604c68);
+    }
+
+    .plan-name {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .plan-tier {
+      color: var(--text-soft);
+      font-size: 11px;
+    }
+
+    .plan-price {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .plan-price span.small {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-soft);
+    }
+
+    .plan-ram {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .per-player {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .select-btn {
+      margin-top: 6px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #ffb632, #ff7b36);
+      color: #120916;
+    }
+
+    .select-btn.outline {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      color: var(--text-main);
+    }
+
+    .footer-note {
+      margin-top: auto;
+      font-size: 11px;
+      color: var(--text-soft);
+      text-align: center;
+      padding-top: 8px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .plans-row {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- HEADER -->
+    <div class="wrapper">
+
+      <!-- NAVBAR -->
+      <header class="nav">
+        <div class="logo">
+          <a href="plansup3.html">
+            <img src="image.png" alt="Logo" height="60">
+          </a>
+          <div class="logo-text">
+            <span><a href="plansup3.html" class="nolink">SLAZE.HOST</a>
+
+              <style>
+                .nolink {
+                  color: inherit;
+                  /* same color as normal text */
+                  text-decoration: none;
+                  /* removes underline */
+                }
+
+                .nolink:visited {
+                  color: inherit;
+                }
+              </style>
+            </span><br>
+          </div>
+        </div>
+
+
+
+    </div>
+
+    <h1 class="hero-title">Minecraft <span>RAM Calculator</span></h1>
+    <p class="hero-sub">Move the sliders and we’ll recommend a RAM amount and a plan automatically.</p>
+
+    <div class="layout">
+
+      <!-- LEFT: CONFIG -->
+      <div class="panel">
+        <h2 class="panel-title">Quick Presets</h2>
+        <div class="chip-row">
+          <button class="chip active" data-preset="survival">Survival</button>
+          <button class="chip" data-preset="skyblock">Skyblock</button>
+          <button class="chip" data-preset="network">Network</button>
+          <button class="chip" data-preset="light-mod">Light Modpack</button>
+          <button class="chip" data-preset="heavy-mod">Heavy Modpack</button>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label-row">
+            <div class="field-label"><span class="icon">🖥️</span>Server Type</div>
+          </div>
+          <select class="select-input" id="server-type">
+            <option>Paper / Spigot</option>
+            <option>Purpur</option>
+            <option>Fabric</option>
+            <option>Forge</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label-row">
+            <div class="field-label"><span class="icon">🎮</span>Game Version</div>
+          </div>
+          <select class="select-input" id="game-version">
+            <option>1.21.x</option>
+            <option>1.20.x</option>
+            <option>1.19.x</option>
+            <option>Legacy (1.8–1.12)</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label-row">
+            <div class="field-label"><span class="icon">👥</span>Concurrent Players</div>
+            <div class="field-value"><span id="players-count">10</span> players</div>
+          </div>
+          <div class="slider-row">
+            <input type="range" id="players-slider" min="1" max="100" value="10">
+            <span class="slider-number" id="players-display">10</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label-row">
+            <div class="field-label"><span class="icon">🧩</span>How many mods?</div>
+            <div class="field-value"><span id="mods-count">0</span> mods</div>
+          </div>
+          <div class="slider-row">
+            <input type="range" id="mods-slider" min="0" max="120" value="0">
+            <span class="slider-number" id="mods-display">0</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="collapse-title">
+            <span>🧱 Plugin Load</span>
+          </div>
+          <div class="sub-sliders">
+            <div>
+              <div class="sub-label-row">
+                <span>Light plugins</span>
+                <span class="sub-slider-value" id="light-display">5</span>
+              </div>
+              <div class="sub-slider-row">
+                <input type="range" id="light-slider" min="0" max="50" value="5">
+              </div>
+            </div>
+            <div>
+              <div class="sub-label-row">
+                <span>Heavy / performance plugins</span>
+                <span class="sub-slider-value" id="heavy-display">2</span>
+              </div>
+              <div class="sub-slider-row">
+                <input type="range" id="heavy-slider" min="0" max="20" value="1">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: RECOMMENDATIONS -->
+      <div class="panel-right">
+        <div class="panel-right-header">
+          <div>
+            <div class="panel-right-title">Our Recommendation</div>
+          </div>
+          <a href="#">
+            <div class="panel-right-badge">Share ▸</div>
+          </a>
+        </div>
+
+        <div class="calc-ram-row">
+          Calculated RAM:
+          <span class="value" id="ram-value">4 GB</span>
+        </div>
+
+        <div class="status-row">
+          <span>RAM usage: <strong id="usage-label">Optimal</strong></span>
+          <div class="status-bar">
+            <div class="status-bar-fill" id="usage-bar"></div>
+          </div>
+          <span>TPS risk: <strong id="tps-label">Medium</strong></span>
+        </div>
+
+        <div class="tier-tabs">
+          <button class="tier-btn active">Auto</button>
+          <button class="tier-btn">Budget</button>
+          <button class="tier-btn">Performance</button>
+        </div>
+
+        <div class="cost-box">
+          <strong>Recommended plan:</strong>
+          <span class="cost-highlight" id="recommended-plan-name">Gold (10 GB)</span><br>
+          · Approx cost:
+          <span class="cost-highlight" id="recommended-plan-price">₹499/mo</span>
+        </div>
+
+        <div class="plans-row">
+          <div class="plan-card" data-ram="4" data-name="Stone" data-price="₹199/mo">
+            <div class="plan-name">Stone </div>
+            <div class="plan-tier">Budget Tier</div>
+            <div class="plan-price">₹199<span class="small"> /mo</span></div>
+            <div class="plan-ram">4 GB RAM</div>
+            <div class="per-player">20 GB SSD </div>
+            <a href="https://slaze.host/products/minecraft-plans/stone-plan"><button class="select-btn outline">Select
+                Plan</button></a>
+          </div>
+
+          <div class="plan-card" data-ram="8" data-name="Iron" data-price="₹399/mo">
+            <div class="plan-name">Iron </div>
+            <div class="plan-tier">Budget Tier</div>
+            <div class="plan-price">₹399<span class="small"> /mo</span></div>
+            <div class="plan-ram">8 GB RAM</div>
+            <div class="per-player">35 GB SSD</div>
+            <a href="https://slaze.host/products/minecraft-plans/iron-plan"><button class="select-btn">Select
+                Plan</button></a>
+          </div>
+
+          <div class="plan-card active" data-ram="10" data-name="Gold" data-price="₹499/mo">
+            <div class="plan-name">Gold</div>
+            <div class="plan-tier">Average Tier</div>
+            <div class="plan-price">₹499<span class="small"> /mo</span></div>
+            <div class="plan-ram">10 GB RAM</div>
+            <div class="per-player">50 GB SSD</div>
+            <a href="https://slaze.host/products/minecraft-plans/gold-plan"><button class="select-btn outline">Select
+                Plan</button></a>
+          </div>
+
+          <div class="plan-card active" data-ram="16" data-name="Emerald" data-price="₹799/mo">
+            <div class="plan-name">Emerald</div>
+            <div class="plan-tier">Average Tier</div>
+            <div class="plan-price">₹799<span class="small"> /mo</span></div>
+            <div class="plan-ram">16 GB RAM</div>
+            <div class="per-player">64 GB SSD</div>
+            <a href="https://slaze.host/products/minecraft-plans/emerald-plan"><button class="select-btn outline">Select
+                Plan</button></a>
+          </div>
+
+          <div class="plan-card" data-ram="24" data-name="Obsidian" data-price="₹1199/mo">
+            <div class="plan-name">Obsidian </div>
+            <div class="plan-tier">Performance Tier</div>
+            <div class="plan-price">₹1199<span class="small"> /mo</span></div>
+            <div class="plan-ram">24 GB RAM</div>
+            <div class="per-player">96 GB SSD</div>
+            <a href="https://slaze.host/products/minecraft-plans/obsidian-plan"><button
+                class="select-btn outline">Select Plan</button></a>
+          </div>
+          <div class="plan-card" data-ram="32" data-name="Bedrock" data-price="₹1599/mo">
+            <div class="plan-name">Bedrock </div>
+            <div class="plan-tier">Performance Tier</div>
+            <div class="plan-price">₹1599<span class="small"> /mo</span></div>
+            <div class="plan-ram">32 GB RAM</div>
+            <div class="per-player">150 GB SSD</div>
+            <a href="https://slaze.host/products/minecraft-plans/bedrock-plan"><button class="select-btn outline">Select
+                Plan</button></a>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // sliders
+    const playersSlider = document.getElementById("players-slider");
+    const modsSlider = document.getElementById("mods-slider");
+    const lightSlider = document.getElementById("light-slider");
+    const heavySlider = document.getElementById("heavy-slider");
+
+    const playersDisplay = document.getElementById("players-display");
+    const playersCount = document.getElementById("players-count");
+    const modsDisplay = document.getElementById("mods-display");
+    const modsCount = document.getElementById("mods-count");
+    const lightDisplay = document.getElementById("light-display");
+    const heavyDisplay = document.getElementById("heavy-display");
+
+    const ramValueEl = document.getElementById("ram-value");
+    const usageLabel = document.getElementById("usage-label");
+    const usageBar = document.getElementById("usage-bar");
+    const tpsLabel = document.getElementById("tps-label");
+
+    const planCards = document.querySelectorAll(".plan-card");
+    const recNameEl = document.getElementById("recommended-plan-name");
+    const recPriceEl = document.getElementById("recommended-plan-price");
+
+    function updateDisplays() {
+      playersDisplay.textContent = playersSlider.value;
+      playersCount.textContent = playersSlider.value;
+      modsDisplay.textContent = modsSlider.value;
+      modsCount.textContent = modsSlider.value;
+      lightDisplay.textContent = lightSlider.value;
+      heavyDisplay.textContent = heavySlider.value;
+    }
+
+    function calculateRam() {
+      const players = Number(playersSlider.value);
+      const mods = Number(modsSlider.value);
+      const light = Number(lightSlider.value);
+      const heavy = Number(heavySlider.value);
+
+      let ram = 2;                           // base
+      ram += Math.ceil(players / 10);        // +1 GB per 6 players
+      ram += Math.ceil(mods / 20);          // +1 GB per 25 mods
+      ram += Math.ceil(light / 20);         // +1 GB per ~20 light plugins
+      ram += Math.ceil(heavy / 6);          // +1 GB per 6 heavy plugins
+
+      ram = Math.min(Math.max(ram, 2), 32); // clamp 2–16
+
+      // round to even GB to look neat
+      if (ram % 2 !== 0) ram += 1;
+
+      return ram;
+    }
+
+    function updateRecommendation() {
+      updateDisplays();
+      const ram = calculateRam();
+      ramValueEl.textContent = ram + " GB";
+
+      // simple usage + TPS labels
+      if (ram <= 4) {
+        usageLabel.textContent = "Tight";
+        tpsLabel.textContent = "High";
+        usageBar.style.width = "90%";
+      } else if (ram <= 6) {
+        usageLabel.textContent = "Optimal";
+        tpsLabel.textContent = "Medium";
+        usageBar.style.width = "65%";
+      } else {
+        usageLabel.textContent = "Comfortable";
+        tpsLabel.textContent = "Low";
+        usageBar.style.width = "40%";
+      }
+
+      // pick best plan
+      let bestCard = null;
+      let bestRam = Infinity;
+      planCards.forEach(card => {
+        const planRam = Number(card.dataset.ram);
+        if (planRam >= ram && planRam < bestRam) {
+          bestCard = card;
+          bestRam = planRam;
+        }
+      });
+
+      if (!bestCard) {
+        // if none big enough, pick max
+        planCards.forEach(card => {
+          const planRam = Number(card.dataset.ram);
+          if (!bestCard || planRam > bestRam) {
+            bestCard = card;
+            bestRam = planRam;
+          }
+        });
+      }
+
+      // highlight plan
+      planCards.forEach(card => card.classList.remove("active"));
+      if (bestCard) {
+        bestCard.classList.add("active");
+        recNameEl.textContent = `${bestCard.dataset.name} (${bestCard.dataset.ram} GB)`;
+        recPriceEl.textContent = bestCard.dataset.price;
+      }
+    }
+
+    // preset chips
+    const presetChips = document.querySelectorAll(".chip");
+    presetChips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        presetChips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        const preset = chip.dataset.preset;
+
+        if (preset === "skyblock") {
+          playersSlider.value = 10;
+          modsSlider.value = 0;
+          lightSlider.value = 8;
+          heavySlider.value = 2;
+        } else if (preset === "survival") {
+          playersSlider.value = 35;
+          modsSlider.value = 7;
+          lightSlider.value = 12;
+          heavySlider.value = 6;
+        } else if (preset === "heavy-mod") {
+          playersSlider.value = 60;
+          modsSlider.value = 50;
+          lightSlider.value = 34;
+          heavySlider.value = 10;
+        } else if (preset === "light-mod") {
+          playersSlider.value = 30;
+          modsSlider.value = 40;
+          lightSlider.value = 10;
+          heavySlider.value = 4;
+        } else if (preset === "network") {
+          playersSlider.value = 60;
+          modsSlider.value = 90;
+          lightSlider.value = 25;
+          heavySlider.value = 12;
+        }
+        updateRecommendation();
+      });
+    });
+
+    // slider events
+    [playersSlider, modsSlider, lightSlider, heavySlider].forEach(slider => {
+      slider.addEventListener("input", updateRecommendation);
+    });
+
+    // tier buttons just visual
+    document.querySelectorAll(".tier-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tier-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    // initial
+    updateRecommendation();
+  </script>
+</body>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Slaze Host Landing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #020617, #020617 60%, #000 100%);
+      color: #e5e7eb;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    /* PAGE LAYOUT */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    main {
+      display: flex;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero {
+      flex: 1.2;
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    aside {
+      flex: 1;
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* Just a simple hero example */
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      opacity: 0.85;
+      margin-bottom: 12px;
+    }
+
+    /* Your snippet styles */
+    .hero-card-footer {
+      margin-top: 18px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 1);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 12px;
+    }
+
+    /* ---------- BOTTOM SECTION (DISCORD + FOOTER) ---------- */
+
+    .discord-cta-wrapper {
+      width: 100%;
+      margin-top: 40px;
+      display: block;
+    }
+
+    .discord-card {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 28px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #1d2b4a, #111827);
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .discord-left {
+      max-width: 550px;
+    }
+
+    .discord-chip {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(248, 250, 252, 0.06);
+      color: #e5e7eb;
+      margin-bottom: 8px;
+    }
+
+    .discord-left h2 {
+      font-size: 28px;
+      color: #f9fafb;
+    }
+
+    .discord-left h2 span {
+      color: #facc15;
+    }
+
+    .discord-left p {
+      margin-top: 8px;
+      color: #cbd5f5;
+      opacity: 0.9;
+    }
+
+    .discord-btn {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, #facc15, #f97316);
+      color: #111827;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .discord-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .discord-badge {
+      padding: 10px 16px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #e5e7eb;
+      font-size: 14px;
+    }
+
+    /* Footer */
+    .site-footer {
+      width: 100%;
+      background: #0a0e20;
+      margin-top: 32px;
+      padding: 32px 0 18px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto 18px;
+      display: grid;
+      gap: 24px;
+      grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+    }
+
+    .footer-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f9fafb;
+      margin-bottom: 6px;
+    }
+
+    .footer-logo span {
+      color: #ea981d;
+    }
+
+    .footer-inner h3 {
+      margin-bottom: 8px;
+      color: #e5e7eb;
+      font-size: 15px;
+    }
+
+    .footer-inner ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-inner li {
+      margin-bottom: 6px;
+    }
+
+    .footer-inner a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 10px;
+      border-top: 1px solid #8d9bbb;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .footer-badge {
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      color: #e5e7eb;
+    }
+
+    .footer-inner a:hover {
+      color: #facc15;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+      }
+
+      .discord-card {
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+    <main>
+      <!-- LEFT HERO (example) -->
+
+
+      <!-- RIGHT CARD (this contains your snippet at bottom) -->
+
+    </main>
+  </div>
+
+  <!-- BOTTOM SECTION (THIS SHOULD BE BELOW, NOT SIDEWAYS) -->
+  <section class="discord-cta-wrapper">
+    <div class="discord-card">
+      <div class="discord-left">
+        <div class="discord-chip">Community</div>
+        <h2>Join our <span>Discord server</span></h2>
+        <p>
+          Get support, talk with other players and stay updated with the latest
+          news from Slaze.Host.
+        </p>
+        <a href="discord.html" class="discord-btn">
+          <span>Join on Discord</span><span style="font-size:18px;">→</span>
+        </a>
+      </div>
+      <div class="discord-right">
+        <div class="discord-badge">🔔 Live announcements</div>
+        <div class="discord-badge">💬 24/7 support chat</div>
+        <div class="discord-badge">🎮 Events & giveaways</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+            <a href="plansup3.html"><img src="image.png" alt="Logo" height="60">
+            <div class="footer-logo"><span>SLAZE</span>.HOST</div></a>
+            <p style="max-width:320px;margin:0 0 10px;">
+              Premium game & VPS hosting with low latency, NVMe storage and friendly support.
+            </p>
+        <p style="font-size:12px;color:#6b7280;margin:0;">Made by Saras and BeingVoid</p>
+      </div>
+
+      <div>
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/client-area">Client Area</a></li>
+          <li><a href="plansup3.html"> Hosting Hub</a></li>
+          <li><a href="vps plans.html">VPS Hosting</a></li>
+          <li><a href="games plan.html">Game Server Hosting</a></li>
+          <li><a href="dm bots.html">Other Services</a></li>
+
+        </ul>
+      </div>
+
+      <div>
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="/tos">Terms of Service</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/refund">Refund Policy</a></li>
+          <li><a href="/sla">Service Level (SLA)</a></li>
+          <li><a href="/about">About Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Contact us</h3>
+        <ul>
+          <li>📧 <a href="mailto:support@slaze.host">support@slaze.host</a></li>
+          <li>📞 <a href="tel:+910000000000">+91 00000 00000</a></li>
+          <li>🎮 <a href="https://panel.slaze.host">panel.slaze.host</a></li>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 SLAZE.HOST. All rights reserved.</span>
+      <span class="footer-badge">99.9% Uptime • NVMe Powered</span>
+    </div>
+  </footer>
+</body>
+
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url("https://wallpaperaccess.com/full/196488.jpg") no-repeat center center fixed;
+      background-size: cover;
+      /* makes the image fill the whole page */
+    }
+  </style>
+</head>
+
+
+</html>

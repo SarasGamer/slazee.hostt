@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Slaze Host</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #101724, #020617);
+      color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .wrapper {
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(16, 24, 43, 0.695);
+      border-radius: 24px;
+      padding: 32px 24px 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      backdrop-filter: blur(14px);
+    }
+
+    /* NAV */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff9500, #ffd200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #020617;
+      box-shadow: 0 0 20px rgba(255, 149, 0, 0.6);
+    }
+
+    .logo-text span:first-child {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .logo-text span:last-child {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+      color: #010003a9;
+    }
+
+    .nav-links a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: #000000;
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-title span.highlight {
+      background: linear-gradient(135deg, #ff9500, #ffd200);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      color: #9ca3af;
+      font-size: 14px;
+      max-width: 420px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    /* BUTTONS */
+    .hero-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: .15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff9500, #d5af06d8);
+      color: #020617;
+      box-shadow: 0 10px 30px rgba(255, 149, 0, 0.5);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #ff9500, #d5af06d8);
+      color: #020617;
+      box-shadow: 0 10px 30px rgba(94, 61, 15, 0.5);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 40px rgba(255, 180, 0, 0.7);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #e5e7eb;
+    }
+
+    .btn-outline:hover {
+      background: rgba(15, 23, 42, 0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8);
+    }
+
+    .hero-note {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    /* SIDE CARD */
+    .hero-card {
+      border-radius: 20px;
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      padding: 18px 16px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 180%;
+      height: 180%;
+      background: radial-gradient(circle at 0 0, rgba(255, 149, 0, 0.25), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      color: #9ca3af;
+      letter-spacing: 0.16em;
+    }
+
+    .hero-card-status {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(255, 149, 0, 0.25);
+      color: #fff8c2;
+      border: 1px solid rgba(255, 180, 0, 0.6);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric {
+      padding: 10px 9px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+    }
+
+    .metric-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .metric-tag {
+      margin-top: 4px;
+      font-size: 10px;
+      color: #ffbb00;
+    }
+
+    .hero-card-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #9ca3af;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      font-size: 10px;
+    }
+
+    /* SECTIONS */
+    .section {
+      margin-top: 48px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .section-subtitle {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    /* PLANS GRID */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .plans-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .plan-card {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 18px;
+      padding: 18px 16px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan-card.highlighted {
+      border-color: rgba(255, 180, 0, 0.9);
+      box-shadow: 0 0 40px rgba(255, 180, 0, 0.3);
+    }
+
+    .plan-tag {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 10px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255, 180, 0, 0.15);
+      border: 1px solid rgba(255, 180, 0, 0.7);
+      color: #ffe08a;
+      letter-spacing: 0.12em;
+    }
+
+    .plan-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .plan-desc {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+
+    .plan-price {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .plan-price span {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-left: 4px;
+      font-weight: 400;
+    }
+
+    .plan-specs {
+      font-size: 12px;
+      color: #e5e7eb;
+      margin-bottom: 10px;
+    }
+
+    .plan-specs span {
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .plan-features {
+      list-style: none;
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+
+    .plan-features li {
+      margin-bottom: 4px;
+    }
+
+    .plan-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      color: #f9fafb;
+      transition: .15s ease;
+    }
+
+    .plan-card.highlighted .plan-btn {
+      border-color: transparent;
+      background: linear-gradient(135deg, #ff9500, #ffd200);
+      color: #020617;
+    }
+
+    .plan-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* LOGIN SECTION */
+    .login-box {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 18px;
+      padding: 16px 16px 18px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 13px;
+      color: #9ca3af;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="logo">
+        <a href="plansup3.html">
+          <img src="image.png" alt="Logo" height="60">
+        </a>
+        <div class="logo-text">
+          <span><a href="plansup3.html" class="nolink">SLAZE.HOST</a>
+
+            <style>
+              .nolink {
+                color: inherit;
+                /* same color as normal text */
+                text-decoration: none;
+                /* removes underline */
+              }
+
+              .nolink:visited {
+                color: inherit;
+              }
+            </style>
+          </span><br>
+
+          <span>Game & VPS hosting</span>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+
+        <a href="login.html" class="btn btn-secondary">Login </a>
+      </nav>
+    </header>
+
+
+    <!-- Panel SECTION -->
+    <div class="section-header">
+
+      <a href="#" class="btn btn-primary">Open Panel →</a>
+      <div class="section-subtitle">Access your control panel and manage your servers.</div>
+
+    </div>
+
+
+
+
+    <div class="section-header">
+
+      <a href="ram cal.html" class="btn btn-primary">Ram Calculator→</a>
+      <div class="section-subtitle">Let Us decide upon your opinion</div>
+
+    </div>
+
+    <!-- Plans -->
+
+    <head>
+      <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        }
+
+        body {
+          background: radial-gradient(circle at top, #20243b 0, #05060b 55%);
+          color: #fff;
+          min-height: 100vh;
+          padding: 32px 16px;
+          display: flex;
+          justify-content: center;
+        }
+
+        .page {
+          width: 100%;
+          max-width: 1200px;
+        }
+
+        .page-header {
+          text-align: center;
+          margin-bottom: 28px;
+        }
+
+        .page-title {
+          font-size: 32px;
+          font-weight: 700;
+          letter-spacing: 0.03em;
+          margin-bottom: 6px;
+        }
+
+        .page-subtitle {
+          font-size: 14px;
+          color: #a8aedc;
+        }
+
+        .plans-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 18px;
+        }
+
+        .plan-card {
+          position: relative;
+          overflow: hidden;
+          border-radius: 14px;
+          padding: 16px 16px 18px;
+          background-size: cover;
+          background-position: center;
+          border: 1px solid rgba(255, 255, 255, 0.09);
+          box-shadow: 0 12px 26px rgba(0, 0, 0, 0.65);
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          backdrop-filter: blur(6px);
+          transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+        }
+
+        .plan-card::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.14), transparent 50%);
+          mix-blend-mode: screen;
+          opacity: 0.7;
+          pointer-events: none;
+        }
+
+        .plan-card::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.25));
+          pointer-events: none;
+        }
+
+        .plan-inner {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          height: 100%;
+        }
+
+        .plan-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .plan-name {
+          font-size: 18px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+        }
+
+        .plan-tag {
+          padding: 3px 8px;
+          border-radius: 999px;
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          background: rgba(0, 0, 0, 0.6);
+          border: 1px solid rgba(255, 255, 255, 0.16);
+        }
+
+        .plan-tag.popular {
+          background: rgba(247, 84, 3, 0.781);
+          border-color: rgb(240, 6, 6);
+        }
+
+        .plan-desc {
+          font-size: 12px;
+          color: #d1d4ff;
+        }
+
+        .plan-price {
+          display: flex;
+          align-items: baseline;
+          gap: 3px;
+          margin-top: 2px;
+        }
+
+        .plan-price .currency {
+          font-size: 14px;
+          opacity: 0.9;
+        }
+
+        .plan-price .amount {
+          font-size: 24px;
+          font-weight: 700;
+        }
+
+        .plan-price .period {
+          font-size: 12px;
+          opacity: 0.9;
+        }
+
+        .plan-specs {
+          list-style: none;
+          font-size: 12px;
+          color: #e4e6ff;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+          margin-top: 4px;
+        }
+
+        .plan-specs li strong {
+          font-weight: 700;
+        }
+
+        .plan-footer {
+          margin-top: auto;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 8px;
+          font-size: 11px;
+          color: #adb2ef;
+        }
+
+        .btn-order {
+          text-decoration: none;
+          background: #5461f0;
+          border-radius: 999px;
+          padding: 7px 13px;
+          font-size: 11px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          border: none;
+          outline: none;
+          color: #fff;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+        }
+
+        .btn-order:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 0 18px rgba(88, 101, 242, 0.7);
+          opacity: 0.95;
+        }
+
+        .btn-order:active {
+          transform: translateY(0);
+          box-shadow: none;
+          opacity: 0.8;
+        }
+
+        .plan-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 16px 32px rgba(0, 0, 0, 0.9);
+          border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Background “themes” per plan (gradients = background images) */
+        .plan-grass {
+          background-image:
+            linear-gradient(135deg, #3fa34d, #0b6b3a),
+            url("about:blank");
+        }
+
+        .plan-wood {
+          background-image:
+            linear-gradient(135deg, #a66b38, #5a3213),
+            url("about:blank");
+        }
+
+        .plan-stone {
+          background-image:
+            linear-gradient(135deg, #6c737e, #363b44),
+            url("about:blank");
+        }
+
+        .plan-coal {
+          background-image:
+            linear-gradient(135deg, #232528, #000000),
+            url("about:blank");
+        }
+
+        .plan-iron {
+          background-image:
+            linear-gradient(135deg, #d4dde5, #727b88),
+            url("about:blank");
+        }
+
+        .plan-gold {
+          background-image:
+            linear-gradient(135deg, #ffd45b, #c9961a),
+            url("about:blank");
+        }
+
+        .plan-diamond {
+          background-image:
+            linear-gradient(135deg, #4df2ff, #1b8fb0),
+            url("about:blank");
+        }
+
+        .plan-emerald {
+          background-image:
+            linear-gradient(135deg, #3df58e, #0b8c4c),
+            url("about:blank");
+        }
+
+        .plan-netherite {
+          background-image:
+            linear-gradient(135deg, #4b2d36, #1b1014),
+            url("about:blank");
+        }
+
+        .plan-obsidian {
+          background-image:
+            linear-gradient(135deg, #3b1666, #090311),
+            url("about:blank");
+        }
+
+        .plan-bedrock {
+          background-image:
+            linear-gradient(135deg, #3e3e3e, #111),
+            url("about:blank");
+        }
+
+        @media (max-width: 600px) {
+          .page-title {
+            font-size: 26px;
+          }
+        }
+      </style>
+    </head>
+
+    <body>
+      <div class="page">
+        <header class="page-header">
+          <h1 class="page-title">Minecraft Plans</h1>
+          <p class="page-subtitle">Choose the plan that matches your world size, player count, and budget.</p>
+        </header>
+
+        <section class="plans-grid">
+
+          <!-- GRASS -->
+          <article class="plan-card plan-grass">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Grass</h2>
+                <span class="plan-tag">Starter</span>
+              </div>
+              <p class="plan-desc">Perfect for testing worlds, friends-only SMPs and small plugins.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">49</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>1 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13 </strong> (100% CPU)</li>
+                <li><strong>5 GB</strong> NVMe SSD</li>
+                <li>Recommended: <strong>Up to 5 players</strong></li>
+                <li>Location: India / EU (shared)</li>
+              </ul>
+              <div class="plan-footer">
+                <span>Basic DDoS protection</span>
+                <a href="https://slaze.host/products/minecraft-plans/grass-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- WOOD -->
+          <article class="plan-card plan-wood">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Wood</h2>
+                <span class="plan-tag">Beginner SMP</span>
+              </div>
+              <p class="plan-desc">Great for small SMPs, light plugins and casual survival worlds.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">99</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>2 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13</strong> (100% CPU)</li>
+                <li><strong>10 GB</strong> NVMe SSD</li>
+                <li>Recommended: <strong>Up to 10 players</strong></li>
+                <li>1 MySQL database</li>
+              </ul>
+              <div class="plan-footer">
+                <span>Email support</span>
+                <a href="https://slaze.host/products/minecraft-plans/wood-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- STONE -->
+          <article class="plan-card plan-stone">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Stone</h2>
+                <span class="plan-tag">Stable</span>
+              </div>
+              <p class="plan-desc">For stable SMPs with plugins like Essentials, LuckPerms, Geyser, etc.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">199</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>4 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13</strong> (200% CPU)</li>
+                <li><strong>20 GB</strong> NVMe SSD</li>
+                <li>Recommended: <strong>Up to 20 players</strong></li>
+                <li>Automatic daily backups</li>
+              </ul>
+              <div class="plan-footer">
+                <span>Ticket support</span>
+                <a href="https://slaze.host/products/minecraft-plans/stone-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- COAL -->
+          <article class="plan-card plan-coal">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Coal</h2>
+                <span class="plan-tag">Plugin Heavy</span>
+              </div>
+              <p class="plan-desc">For servers using multiple plugins, economy, ranks and more.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">299</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>6 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13</strong> (300% CPU)</li>
+                <li><strong>30 GB</strong> NVMe SSD</li>
+                <li>Recommended: <strong>Up to 30 players</strong></li>
+                <li>1-click modpack installer</li>
+              </ul>
+              <div class="plan-footer">
+                <span>24/7 uptime</span>
+                <a href="https://slaze.host/products/minecraft-plans/coal-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- IRON -->
+          <article class="plan-card plan-iron">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Iron</h2>
+                <span class="plan-tag">Community</span>
+              </div>
+              <p class="plan-desc">Ideal for growing communities and feature-rich survival servers.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">399</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>8 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13</strong> (350% CPU)</li>
+                <li><strong>35 GB</strong> NVMe SSD</li>
+                <li>Recommended: <strong>Up to 40 players</strong></li>
+                <li>Priority ticket support</li>
+              </ul>
+              <div class="plan-footer">
+                <span>Advanced DDoS protection</span>
+                <a href="https://slaze.host/products/minecraft-plans/iron-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- GOLD -->
+          <article class="plan-card plan-gold">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Gold</h2>
+                <span class="plan-tag">Premium</span>
+              </div>
+              <p class="plan-desc">For premium SMPs, events and small networks with multiple worlds.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">499</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>10 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13</strong> (400% CPU)</li>
+                <li><strong>40 GB</strong> NVMe SSD</li>
+                <li>Recommended: <strong>Up to 60 players</strong></li>
+                <li>Free subdomain: <strong>yourname.slaze.host</strong></li>
+              </ul>
+              <div class="plan-footer">
+                <span>Discord support</span>
+                <a href="https://slaze.host/products/minecraft-plans/gold-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- DIAMOND -->
+          <article class="plan-card plan-diamond">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Diamond</h2>
+                <span class="plan-tag popular">Most Popular</span>
+              </div>
+              <p class="plan-desc">Perfect for creators, SMP streamers and medium-sized public servers.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">599</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>12 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13</strong> (450% CPU)</li>
+                <li><strong>50 GB</strong> NVMe SSD</li>
+                <li>Recommended: <strong>Up to 80 players</strong></li>
+                <li>Hourly backups + 3 restore points</li>
+              </ul>
+              <div class="plan-footer">
+                <span>Priority Discord support</span>
+                <a href="https://slaze.host/products/minecraft-plans/diamond-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- EMERALD -->
+          <article class="plan-card plan-emerald">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Emerald</h2>
+                <span class="plan-tag">High Performance</span>
+              </div>
+              <p class="plan-desc">For modded survival, hardcore PvP and mini-game setups.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">799</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>16 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13</strong> (500% CPU)</li>
+                <li><strong>64 GB</strong> NVMe SSD</li>
+                <li>Recommended: <strong>Up to 100 players</strong></li>
+                <li>Free migration from other host</li>
+              </ul>
+              <div class="plan-footer">
+                <span>Dedicated resources</span>
+                <a href="https://slaze.host/products/minecraft-plans/emerald-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- NETHERITE -->
+          <article class="plan-card plan-netherite">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Netherite</h2>
+                <span class="plan-tag">Network Ready</span>
+              </div>
+              <p class="plan-desc">For Bungee / Velocity hubs, multiple servers and game modes.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">999</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>20 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13</strong> (600% CPU)</li>
+                <li><strong>80 GB</strong> NVMe SSD</li>
+                <li>Recommended: <strong>Up to 150 players</strong></li>
+                <li>Extra port for proxy / lobby</li>
+              </ul>
+              <div class="plan-footer">
+                <span>Network optimization</span>
+                <a href="https://slaze.host/products/minecraft-plans/netherite-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- OBSIDIAN -->
+          <article class="plan-card plan-obsidian">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Obsidian</h2>
+                <span class="plan-tag">Big Servers</span>
+              </div>
+              <p class="plan-desc">For large public SMPs, events and multi-world setups.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">1199</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>24 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13</strong> (700% CPU)</li>
+                <li><strong>96 GB</strong> NVMe SSD</li>
+                <li>Recommended: <strong>Up to 200 players</strong></li>
+                <li>Custom JVM optimization by staff</li>
+              </ul>
+              <div class="plan-footer">
+                <span>Premium support line</span>
+                <a href="https://slaze.host/products/minecraft-plans/obsidian-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- BEDROCK -->
+          <article class="plan-card plan-bedrock">
+            <div class="plan-inner">
+              <div class="plan-header">
+                <h2 class="plan-name">Bedrock</h2>
+                <span class="plan-tag">Custom</span>
+              </div>
+              <p class="plan-desc">For huge networks, YT creators, eSports events and studios.</p>
+              <div class="plan-price">
+                <span class="currency">₹</span><span class="amount">1599</span><span class="period">/mo</span>
+              </div>
+              <ul class="plan-specs">
+                <li><strong>32 GB</strong> DDR4 RAM</li>
+                <li><strong>AMD EPYC 7R13</strong> (800% CPU)</li>
+                <li><strong>150 GB</strong> NVMe SSD</li>
+                <li><strong>Custom player limit</strong></li>
+                <li>Account manager + SLA</li>
+              </ul>
+              <div class="plan-footer">
+                <span>Contact sales for quote</span>
+                <a href="https://slaze.host/products/minecraft-plans/bedrock-plan" class="btn-order">Order Now</a>
+              </div>
+            </div>
+          </article>
+
+        </section>
+      </div>
+    </body>
+
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+            sans-serif;
+        }
+
+        body {
+          min-height: 100vh;
+          background: radial-gradient(circle at top, #020617, #020617 60%, #000);
+          color: #e5f3ff;
+          padding: 40px 0;
+        }
+
+        .shield-section {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 18px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .shield-row {
+          display: grid;
+          grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+          gap: 18px;
+        }
+
+        .shield-card {
+          background: #010913cb;
+          border-radius: 18px;
+          padding: 20px 22px;
+          border: 1px solid #1f2937;
+          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .shield-card h2 {
+          font-size: 20px;
+          margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .shield-card h2 span.icon {
+          font-size: 20px;
+        }
+
+        .shield-card p {
+          font-size: 14px;
+          color: #b4c6dd;
+        }
+
+        /* Highlights list */
+        .highlight-list {
+          margin-top: 12px;
+          list-style: none;
+          font-size: 14px;
+          color: #e5f3ff;
+        }
+
+        .highlight-list li {
+          margin-bottom: 10px;
+        }
+
+        .highlight-title {
+          color: #b6921d;
+          font-weight: 600;
+        }
+
+        .highlight-desc {
+          display: block;
+          color: #b4c6dd;
+          font-weight: 400;
+        }
+
+        /* Why choose */
+        .choose-body {
+          margin-top: 10px;
+          font-size: 14px;
+          color: #cdd9f0;
+        }
+
+        .choose-pills {
+          margin-top: 14px;
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+        }
+
+        .choose-pill {
+          background: #02061790;
+          border-radius: 999px;
+          padding: 8px 12px;
+          font-size: 13px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          justify-content: center;
+          border: 1px solid #273c69;
+        }
+
+        .choose-pill span.dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 999px;
+          background: #1cdb62;
+        }
+
+        .upgrade-btn {
+          margin-top: 16px;
+          width: 100%;
+          border-radius: 12px;
+          padding: 10px 14px;
+          font-size: 14px;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          background: linear-gradient(120deg, #b18e3a, #ca9e26);
+          color: #022c22;
+          font-weight: 600;
+          box-shadow: 0 12px 28px rgba(183, 175, 31, 0.33);
+        }
+
+        /* Tiers card */
+        .tiers-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          gap: 18px;
+          margin-top: 14px;
+        }
+
+        .tier-block {
+          border-radius: 14px;
+          padding: 12px 14px;
+          border: 1px solid #1f2937;
+          background: #020817;
+          font-size: 14px;
+        }
+
+        .tier-title {
+          font-weight: 600;
+          margin-bottom: 8px;
+          color: #bbf7d0;
+        }
+
+        .tier-list {
+          list-style: none;
+          font-size: 13px;
+          color: #cbd5f5;
+        }
+
+        .tier-list li {
+          margin-bottom: 4px;
+        }
+
+        .tier-list li::before {
+          content: "✔";
+          color: #22c55e;
+          margin-right: 6px;
+          font-size: 11px;
+        }
+
+        /* Stats card */
+        .stats-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 14px;
+          font-size: 13px;
+          color: #9ca3af;
+        }
+
+        .stats-main {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+          margin-bottom: 14px;
+        }
+
+        .stat-box {
+          background: #020817;
+          border-radius: 12px;
+          padding: 10px 12px;
+          border: 1px solid #111827;
+          font-size: 13px;
+        }
+
+        .stat-label {
+          font-size: 12px;
+          color: #9ca3af;
+          margin-bottom: 4px;
+        }
+
+        .stat-value {
+          font-size: 20px;
+          font-weight: 700;
+          color: #e5f3ff;
+        }
+
+        .stat-sub {
+          font-size: 12px;
+          color: #4ade80;
+          margin-top: 2px;
+        }
+
+        .stats-bottom {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 10px;
+        }
+
+        .mini-stat {
+          background: #020817;
+          border-radius: 12px;
+          padding: 8px 10px;
+          border: 1px solid #111827;
+          font-size: 12px;
+          color: #cbd5f5;
+        }
+
+        .mini-label {
+          color: #9ca3af;
+          margin-bottom: 3px;
+        }
+
+        .mini-value {
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        @media (max-width: 960px) {
+          .shield-row {
+            grid-template-columns: 1fr;
+          }
+        }
+      </style>
+    </head>
+
+    <body>
+
+      <section class="shield-section">
+        <!-- TOP ROW -->
+        <div class="shield-row">
+          <!-- Highlights -->
+          <article class="shield-card">
+            <h2>
+              <span class="icon">🛡️</span>
+              SlazeShield Highlights
+            </h2>
+            <ul class="highlight-list">
+              <li>
+                <span class="highlight-title">Global DDoS Backbone:</span>
+                <span class="highlight-desc">
+                  Distributed capacity across multiple POPs with multi-Tbps mitigation for game & Discord bot traffic.
+                </span>
+              </li>
+              <li>
+                <span class="highlight-title">Adaptive Mitigation:</span>
+                <span class="highlight-desc">
+                  Rules automatically tune based on attack patterns, packet rates and connection behavior.
+                </span>
+              </li>
+              <li>
+                <span class="highlight-title">Protocol-Aware Filtering:</span>
+                <span class="highlight-desc">
+                  Custom profiles for Minecraft, HTTP APIs and Discord gateways to keep latency low.
+                </span>
+              </li>
+              <li>
+                <span class="highlight-title">Zero-day Detection:</span>
+                <span class="highlight-desc">
+                  Behavior-based systems flag unusual spikes and deploy new filters in seconds.
+                </span>
+              </li>
+            </ul>
+          </article>
+
+          <!-- Why choose -->
+          <article class="shield-card">
+            <h2>
+              <span class="icon">🔒</span>
+              Why Choose SlazeShield?
+            </h2>
+            <p class="choose-body">
+              SlazeShield is tuned specifically for game servers and Discord bots. Instead of generic web-only rules,
+              our edge filters understand connection bursts, voice traffic and gateway reconnect storms.
+            </p>
+
+            <div class="choose-pills">
+              <div class="choose-pill">
+                <span class="dot"></span>
+                <span>Game-optimized filtering</span>
+              </div>
+              <div class="choose-pill">
+                <span class="dot"></span>
+                <span>Low latency mitigation</span>
+              </div>
+              <div class="choose-pill">
+                <span class="dot"></span>
+                <span>99.9% uptime target</span>
+              </div>
+              <div class="choose-pill">
+                <span class="dot"></span>
+                <span>24/7 security team</span>
+              </div>
+            </div>
+
+            <a href="ddos prot.html"><button class="upgrade-btn">
+              Upgrade Your Protection
+            </button></a>
+          </article>
+        </div>
+
+        <!-- BOTTOM ROW -->
+        <div class="shield-row">
+          <!-- Protection tiers -->
+          <article class="shield-card">
+            <h2>
+              <span class="icon">📦</span>
+              Protection Tiers
+            </h2>
+
+            <div class="tiers-grid">
+              <div class="tier-block">
+                <div class="tier-title">Basic Protection</div>
+                <ul class="tier-list">
+                  <li>Layer 3 / 4 mitigation</li>
+                  <li>Protocol validation</li>
+                  <li>Up to 100 Gbps attack capacity</li>
+                  <li>Included with all game plans</li>
+                </ul>
+              </div>
+
+              <div class="tier-block">
+                <div class="tier-title">Premium Protection</div>
+                <ul class="tier-list">
+                  <li>All Basic features</li>
+                  <li>Advanced game & API filters</li>
+                  <li>Up to 1.2 Tbps attack capacity</li>
+                  <li>Custom rules & hands-on support</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Live-ish stats -->
+          <article class="shield-card">
+            <div class="stats-header">
+              <h2>
+                <span class="icon">📊</span>
+                Protection Statistics
+              </h2>
+              <span>Last 30 days</span>
+            </div>
+
+            <div class="stats-main">
+              <div class="stat-box">
+                <div class="stat-label">Total Attacks Blocked</div>
+                <div class="stat-value" id="stat-attacks">6</div>
+                <div class="stat-sub" id="stat-attacks-change">+20% vs. previous</div>
+              </div>
+
+              <div class="stat-box">
+                <div class="stat-label">Largest Attack</div>
+                <div class="stat-value">
+                  <span id="stat-largest">21</span> Gbps
+                </div>
+                <div class="stat-sub" id="stat-largest-type">SYN flood</div>
+              </div>
+            </div>
+
+            <div class="stats-bottom">
+              <div class="mini-stat">
+                <div class="mini-label">Network</div>
+                <div class="mini-value" id="stat-network">78%</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-label">Application</div>
+                <div class="mini-value" id="stat-application">19%</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-label">Other</div>
+                <div class="mini-value" id="stat-other">3%</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <script>
+        // Simple "fake live" stats so numbers keep changing a bit.
+        let totalAttacks = 6;
+        let largestAttack = 21;
+
+        const attacksEl = document.getElementById("stat-attacks");
+        const changeEl = document.getElementById("stat-attacks-change");
+        const largestEl = document.getElementById("stat-largest");
+        const largestTypeEl = document.getElementById("stat-largest-type");
+        const netEl = document.getElementById("stat-network");
+        const appEl = document.getElementById("stat-application");
+        const otherEl = document.getElementById("stat-other");
+
+        const attackTypes = ["SYN flood", "UDP flood", "HTTP flood", "Mixed vector"];
+
+        function formatNumber(n) {
+          return n.toLocaleString("en-IN");
+        }
+
+        function updateVolume() {
+          // Increase total attacks a little every 2 seconds
+          const inc = Math.floor(Math.random() * 2) + 1; // 4–15
+          totalAttacks += inc;
+
+          attacksEl.textContent = formatNumber(totalAttacks);
+
+          const percentChange = 10 + Math.floor(Math.random() * 21); // 10–30%
+          changeEl.textContent = "+" + percentChange + "% vs. previous";
+        }
+
+        function updateLargest() {
+          // Sometimes nudge largest attack up slightly
+          const change = Math.random();
+          if (change > 0.4) {
+            const bump = Math.random() < 0.7 ? Math.random() * 3 : Math.random() * 8;
+            largestAttack = Math.round(largestAttack + bump);
+            largestEl.textContent = largestAttack;
+            largestTypeEl.textContent =
+              attackTypes[Math.floor(Math.random() * attackTypes.length)];
+          }
+        }
+
+        function updateDistribution() {
+          // Make 3 percentages that always sum ~100
+          let network = 70 + Math.floor(Math.random() * 11) - 5; // 65–75
+          let application = 20 + Math.floor(Math.random() * 9) - 4; // 16–24
+          let other = 100 - network - application;
+          netEl.textContent = network + "%";
+          appEl.textContent = application + "%";
+          otherEl.textContent = other + "%";
+        }
+
+        // Timers
+        setInterval(updateVolume, 10000);      // every 10s
+        setInterval(updateLargest, 50000);     // every 50s
+        setInterval(updateDistribution, 7000);// every 7s
+      </script>
+
+    </body>
+
+    
+
+  <head>
+  <meta charset="UTF-8" />
+  <title>Slaze Host Landing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #020617, #020617 60%, #000 100%);
+      color: #e5e7eb;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    /* PAGE LAYOUT */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    main {
+      display: flex;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero {
+      flex: 1.2;
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    aside {
+      flex: 1;
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* Just a simple hero example */
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      opacity: 0.85;
+      margin-bottom: 12px;
+    }
+
+    /* Your snippet styles */
+    .hero-card-footer {
+      margin-top: 18px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 1);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 12px;
+    }
+
+    /* ---------- BOTTOM SECTION (DISCORD + FOOTER) ---------- */
+
+    .discord-cta-wrapper {
+      width: 100%;
+      margin-top: 40px;
+      display: block;
+    }
+
+    .discord-card {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 28px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #1d2b4a, #111827);
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .discord-left {
+      max-width: 550px;
+    }
+
+    .discord-chip {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(248, 250, 252, 0.06);
+      color: #e5e7eb;
+      margin-bottom: 8px;
+    }
+
+    .discord-left h2 {
+      font-size: 28px;
+      color: #f9fafb;
+    }
+
+    .discord-left h2 span {
+      color: #facc15;
+    }
+
+    .discord-left p {
+      margin-top: 8px;
+      color: #cbd5f5;
+      opacity: 0.9;
+    }
+
+    .discord-btn {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, #facc15, #f97316);
+      color: #111827;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .discord-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .discord-badge {
+      padding: 10px 16px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #e5e7eb;
+      font-size: 14px;
+    }
+
+    /* Footer */
+    .site-footer {
+      width: 100%;
+      background: #0a0e2000;
+      margin-top: 32px;
+      padding: 32px 0 18px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      background: #0a0e2000;
+      margin: 0 auto 18px;
+      display: grid;
+      gap: 24px;
+      grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+    }
+
+    .footer-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f9fafb;
+      margin-bottom: 6px;
+    }
+
+    .footer-logo span {
+      color: #ea981d;
+    }
+
+    .footer-inner h3 {
+      margin-bottom: 8px;
+      color: #e5e7eb;
+      font-size: 15px;
+    }
+
+    .footer-inner ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-inner li {
+      margin-bottom: 6px;
+    }
+
+    .footer-inner a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 10px;
+      border-top: 1px solid #8d9bbb;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .footer-badge {
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      color: #e5e7eb;
+    }
+
+    .footer-inner a:hover {
+      color: #facc15;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+      }
+
+      .discord-card {
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+    <main>
+      <!-- LEFT HERO (example) -->
+
+
+      <!-- RIGHT CARD (this contains your snippet at bottom) -->
+
+    </main>
+  </div>
+
+  <!-- BOTTOM SECTION (THIS SHOULD BE BELOW, NOT SIDEWAYS) -->
+  <section class="discord-cta-wrapper">
+    <div class="discord-card">
+      <div class="discord-left">
+        <div class="discord-chip">Community</div>
+        <h2>Join our <span>Discord server</span></h2>
+        <p>
+          Get support, talk with other players and stay updated with the latest
+          news from Slaze.Host.
+        </p>
+        <a href="discord.html" class="discord-btn">
+          <span>Join on Discord</span><span style="font-size:18px;">→</span>
+        </a>
+      </div>
+      <div class="discord-right">
+        <div class="discord-badge">🔔 Live announcements</div>
+        <div class="discord-badge">💬 24/7 support chat</div>
+        <div class="discord-badge">🎮 Events & giveaways</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+            <a href="plansup3.html"><img src="image.png" alt="Logo" height="60">
+            <div class="footer-logo"><span>SLAZE</span>.HOST</div></a>
+            <p style="max-width:320px;margin:0 0 10px;">
+              Premium game & VPS hosting with low latency, NVMe storage and friendly support.
+            </p>
+        <p style="font-size:12px;color:#6b7280;margin:0;">Made by Saras and BeingVoid</p>
+      </div>
+
+      <div>
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/client-area">Client Area</a></li>
+          <li><a href="plansup3.html"> Hosting Hub</a></li>
+          <li><a href="vps plans.html">VPS Hosting</a></li>
+          <li><a href="games plan.html">Game Server Hosting</a></li>
+          <li><a href="dm bots.html">Other Services</a></li>
+
+        </ul>
+      </div>
+
+      <div>
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="/tos">Terms of Service</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/refund">Refund Policy</a></li>
+          <li><a href="/sla">Service Level (SLA)</a></li>
+          <li><a href="/about">About Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Contact us</h3>
+        <ul>
+          <li>📧 <a href="mailto:support@slaze.host">support@slaze.host</a></li>
+          <li>📞 <a href="tel:+910000000000">+91 00000 00000</a></li>
+          <li>🎮 <a href="https://panel.slaze.host">panel.slaze.host</a></li>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 SLAZE.HOST. All rights reserved.</span>
+      <span class="footer-badge">99.9% Uptime • NVMe Powered</span>
+    </div>
+  </footer>
+</body>
+
+    <head>
+      <style>
+        body {
+          margin: 0;
+          padding: 0;
+          background: url("https://wallpaperaccess.com/full/37472.jpg") no-repeat center center fixed;
+          background-size: cover;
+          /* makes the image fill the whole page */
+        }
+      </style>
+    </head>
+
+</html>
